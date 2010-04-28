@@ -1,0 +1,25 @@
+1. unpack segymat_gui_binary_1.1 in e.g. /usr/local : 
+>> cd /usr/local
+>> bunzip segymat_gui_binary_1.1.tar.bz2
+
+this will create the directory 'segymat_gui_binary'
+
+2. add the matlab component library to the systems dynamic library path :
+
+if you are using tcsh :
+-------------------------------------------------------
+setenv MCR_HOME /usr/local/segymat_gui_binary/v70
+setenv LD_LIBRARY_PATH $MCR_HOME/runtime/glnx86:$MCR_HOME/sys/os/glnx86:$MCR_HOME/sys/java/jre/glnx86/jre1.4.2/lib/i386/client:$MCR_HOME/sys/java/jre/glnx86/jre1.4.2/lib/i386:$MCR_HOME/sys/opengl/lib/glnx86:${LD_LIBRARY_PATH}
+
+setenv XAPPLRESDIR $MCR_HOME/X11/app-defaults
+-------------------------------------------------------
+
+
+if you are using bash :
+-------------------------------------------------------
+export MCR_HOME=/usr/local/segymat_gui_binary/v70
+export LD_LIBRARY_PATH=$MCR_HOME/runtime/glnx86:$MCR_HOME/sys/os/glnx86:$MCR_HOME/sys/java/jre/glnx86/jre1.4.2/lib/i386/client:$MCR_HOME/sys/java/jre/glnx86/jre1.4.2/lib/i386:$MCR_HOME/sys/opengl/lib/glnx86:${LD_LIBRARY_PATH}
+export PATH=/usr/local/segymat_gui_binary:$PATH
+
+export XAPPLRESDIR=$MCR_HOME/X11/app-defaults
+-------------------------------------------------------

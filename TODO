@@ -1,0 +1,17 @@
+TODO LIST 
+
+ReadSegy 
+* Honour FixedTraceLength in SegyHeader.
+* When both 'trange' and 'minmax' header value are selected, then the
+  time series returned is wrong....
+* EBCDIC Headers cannot currently be read, only ASCII
+* TraceHeaderInfo return wrong time axis ....
+* ReadSegyFast : only big endian style for now. Looks similar to ReadSegy. 
+                 Maybe it should be integrated in ReadSegy
+	         Maybe a ReadSegyBlock should be implemented, that 
+                 simple reads all the data in the file in one fread statements and then 
+                 uses reshape without the header values. This should be very fast.
+
+* ReadSegy : Adjust SegyHeader when reading inly a part of a SEGY file !!
+
+* wiggle : make it stable.
