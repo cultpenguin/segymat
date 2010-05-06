@@ -321,7 +321,7 @@ end
 
 
 
-dwaitbar=0;
+dwaitbar=10;
 if DataEnd./jump>1e+6, dwaitbar=10;  end
 if DataEnd./jump>1e+7, dwaitbar=50;  end
 if DataEnd./jump>1e+8, dwaitbar=200;  end
