@@ -144,14 +144,17 @@ if (showmax>0)
         xt=dx*Data(:,i)'./dmax;
         if (strmatch('VA',style)==1)
             xt1=xt;xt1(find(xt1>0))=0;
-            f1=fill(x(i)+[xt,fliplr(xt1)],[t,fliplr(t)],[0 0 0]);
+            xx=x(i)+[xt,fliplr(xt1)];
+            tt=[t(:)',fliplr(t(:)')];
+            f1=fill(xx,tt,[0 0 0]);
+            
             set(f1,'LineWidth',LineWidth)
             set(f1,'EdgeColor',EdgeColor)
             %set(f1,'EdgeAlpha',[0]); % GIVES ROCKY IMAGES
             hold on
             if (strmatch('VA2',style,'exact')==1)
                 xt2=xt;xt2(find(xt2<0))=0;
-                f2=fill(x(i)+[xt,fliplr(xt2)],[t,fliplr(t)],[1 0 0]);
+                f2=fill(x(i)+[xt,fliplr(xt2)],[t(:);flipud(t(:))]',[1 0 0]);
                 set(f2,'LineWidth',LineWidth)
                 set(f2,'EdgeColor',EdgeColor)
                 %set(f2,'EdgeAlpha',[0])
