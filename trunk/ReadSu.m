@@ -218,7 +218,7 @@ outtrace=0;
 existJump=exist('jump');
 existHeader=exist('header');
 existtmin=exist('tmin');
-existtmmax=exist('tmax');
+existtmax=exist('tmax');
 
 tic;
 while (~(ftell(segyid)>=DataEnd))
