@@ -132,7 +132,7 @@ ntraces=(DataEnd-DataStart)./(240+(SegyHeader.ns)*(BPS/8));
 
 hval=zeros(1,ntraces);
 for itrace=1:ntraces
-        if ((itrace/1000)==round(itrace/1000))
+        if ((itrace/10000)==round(itrace/10000))
 	  progress_txt(itrace,ntraces,'Trace #')
  	end	
 
