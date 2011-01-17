@@ -47,9 +47,12 @@
 %
 %
 
-function wiggle(x,t,Data,style,dmax,showmax,plImage,imageax,example_plot);
+function wiggle(x,t,Data,style,dmax,showmax,plImage,imageax,ax_order,lineColor,example_plot);
 
-if (nargin==9);
+is_hold_on = ishold;
+
+
+if (nargin==11);
     np=3;
     subplot(np,np,1); wiggle(Data);
     subplot(np,np,2); wiggle(Data,dmax);
@@ -105,6 +108,14 @@ if nargin<7
     plImage=0;
 end
 
+if nargin<9
+    ax_order=1;
+end
+
+if nargin<10
+    lineColor=[0 0 0];
+end
+
 
 if isempty(dmax),
     % Set scaling factor dmax if empty
@@ -120,8 +131,13 @@ if nargin==7,
 end
 
 
+
 if plImage==1,
-    imagesc(x,t,Data);
+    if ax_order==1;
+        imagesc(x,t,Data);
+    else
+        imagesc(t,x,Data');
+    end
     if (length(imageax)==1)
         imageax=[-1 1].*abs(imageax);
     end
@@ -130,8 +146,13 @@ if plImage==1,
 end
 
 if (showmax>0)
-    if length(x)>1, dx=x(2)-x(1); end
+    if length(x)>1, 
+        dx=x(2)-x(1); 
+    else
+        dx=1;
+    end
     ntraces=length(x);
+    ntraces=size(Data,2);
     d=ntraces/showmax;
     if d<=1; d=1; end
     d=round(d);
@@ -139,22 +160,27 @@ if (showmax>0)
     dmax=dmax/d;
 
     LineWidth=0.0001;
-    EdgeColor=[0 0 0];
-    for i=1:d:length(x)
+    EdgeColor=lineColor;
+    for i=1:d:ntraces
         xt=dx*Data(:,i)'./dmax;
         if (strmatch('VA',style)==1)
             xt1=xt;xt1(find(xt1>0))=0;
-            xx=x(i)+[xt,fliplr(xt1)];
-            tt=[t(:)',fliplr(t(:)')];
-            f1=fill(xx,tt,[0 0 0]);
-            
+            if ax_order==1;
+                f1=fill(x(i)+[xt,fliplr(xt1)],[t,fliplr(t)],[0 0 0]);
+            else
+                f1=fill([t,fliplr(t)],x(i)+[xt,fliplr(xt1)],[0 0 0]);
+            end
             set(f1,'LineWidth',LineWidth)
             set(f1,'EdgeColor',EdgeColor)
             %set(f1,'EdgeAlpha',[0]); % GIVES ROCKY IMAGES
             hold on
             if (strmatch('VA2',style,'exact')==1)
                 xt2=xt;xt2(find(xt2<0))=0;
-                f2=fill(x(i)+[xt,fliplr(xt2)],[t(:);flipud(t(:))]',[1 0 0]);
+                if ax_order==1;
+                    f2=fill(x(i)+[xt,fliplr(xt2)],[t,fliplr(t)],[1 0 0]);
+                else
+                    f2=fill([t,fliplr(t)],x(i)+[xt,fliplr(xt2)],[1 0 0]);
+                end
                 set(f2,'LineWidth',LineWidth)
                 set(f2,'EdgeColor',EdgeColor)
                 %set(f2,'EdgeAlpha',[0])
@@ -163,7 +189,12 @@ if (showmax>0)
         else
 
             % MATLAB PLOT
-            plot(xt+x(i),t,'k-','linewidth',.05);
+            if ax_order==1;
+                
+                plot(xt+x(i),t,'-','linewidth',.05,'color',lineColor);
+            else
+                plot(t,xt+x(i),'-','linewidth',.05,'color',lineColor);
+            end
             %OCTAVE PLOT
             %plot(xt+x(i),t,'k-')
         end
@@ -174,9 +205,24 @@ if (showmax>0)
 
 end
 hold off;
-try
-    axis([min(x)-(x(2)-x(1)) max(x)+(x(2)-x(1)) min(t) max(t)])
-catch
-    axis([min(x) max(x) min(t) max(t)])
-end
 set(gca,'Ydir','revers')
+
+if is_hold_on==1
+    return;
+end
+
+try
+    if ax_order==1;
+        axis([min(x(1:ntraces))-(x(2)-x(1)) max(x(1:ntraces))+(x(2)-x(1)) min(t) max(t)])
+    else
+        axis([min(t) max(t) min(x)-(x(2)-x(1)) max(x)+(x(2)-x(1)) ])
+    end
+catch
+    try
+    if ax_order==1;
+        axis([min(x) max(x) min(t) max(t)])
+    else
+        axis([min(t) max(t) min(x) max(x) ])
+    end
+    end
+end
