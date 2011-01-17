@@ -90,7 +90,7 @@ if isoctave
     doWaitBar=0; % [1] show progress bar gui
     mfilename='ReadSegy';
 else
-    doWaitBar=1;
+    doWaitBar=0;
     mfilename='ReadSegy';
 end
 
@@ -215,7 +215,7 @@ end
 % OPEN FILE HANDLE
 
 if exist('endian')==1,
-    SegymatVerbose([mfilename,' : ENDIAN : ',endian],0)
+    SegymatVerbose([mfilename,' : ENDIAN : ',endian],1)
     segyid = fopen(filename,'r',endian);
 else
     endian='ieee-be';
