@@ -166,9 +166,9 @@ if (showmax>0)
         if (strmatch('VA',style)==1)
             xt1=xt;xt1(find(xt1>0))=0;
             if ax_order==1;
-                f1=fill(x(i)+[xt,fliplr(xt1)],[t,fliplr(t)],[0 0 0]);
+                f1=fill(x(i)+[xt,fliplr(xt1)],[t,fliplr(t)],lineColor);
             else
-                f1=fill([t,fliplr(t)],x(i)+[xt,fliplr(xt1)],[0 0 0]);
+                f1=fill([t,fliplr(t)],x(i)+[xt,fliplr(xt1)],[lineColor]);
             end
             set(f1,'LineWidth',LineWidth)
             set(f1,'EdgeColor',EdgeColor)
