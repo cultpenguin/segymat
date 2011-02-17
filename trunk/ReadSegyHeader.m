@@ -109,7 +109,7 @@ while (cargin<ninput)
     
 end
 
-if exist('SkipData')==0,
+if exist('SkipData','var')==0,
     SkipData=0; % [0] READ ONLY HEADER VALUES, [1] READ IN ALL DATA
 end
 
