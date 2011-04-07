@@ -1,0 +1,143 @@
+<sect1 id="segywriting">
+  <title>WriteSegy</title>
+<para><xref linkend="WriteSegy"></xref> is available to write a Matrix to disk as a &sgy; file.</para> 
+<para><xref linkend="WriteSegyStructure"></xref> is available to write a &sgy; file using a specified set of headers. This is of special use if one wants to load a seismic data set, work with the data in Matlab, and the write the data to disk using the same header values.</para>
+
+
+<sect2 id="WriteSegy" xreflabel="WriteSegy.m">
+  <title>WriteSegy</title>
+<para
+><filename
+>WriteSegy</filename> can be used to save a matrix of data, in Matlab as a  file.</para>
+
+<sect3
+><title
+>Specify values for the &sgy; Header</title> 
+<para
+>Here 
+<varname
+>dt</varname> is a scalar and 
+<varname
+>Inline</varname>,
+<varname
+>Crossline</varname>,
+<varname
+>X</varname> and
+<varname
+>Y</varname>
+are arrays of values of size size(data,2)</para>
+<screen
+>&gt;&gt; WriteSegy('datacube.segy',data,
+    'dt',.004,'Inline3D',Inline,'Crossline3D',Crossline,
+    'cdpX',X,'cdpY',Y);</screen></sect3>
+
+
+<sect3
+><title
+>Specify  revision</title> 
+<screen
+>&gt;&gt; WriteSegy('test.segy',seisdata,'revision',0); % SEG-Y Revision 0
+&gt;&gt; WriteSegy('test.segy',seisdata,'revision',1); % SEG-Y Revision 1</screen></sect3>
+
+<sect3
+><title
+>Specify data sample format</title> 
+<para
+> See <xref linkend="DataSampleFormatSupport"></xref> for a list of valid and supported values for the datasample format <varname
+>dsf</varname>.</para>
+<screen
+>&gt;&gt; % Force Revision 1 and IEEE Floating point :
+&gt;&gt; WriteSegy('test.segy',seisdata,'dsf',5,'revision',1); 
+&gt;&gt;
+&gt;&gt; % Force Revision 0 and IBM Floating point :
+&gt;&gt; WriteSegy('test.segy',seisdata,'dsf',1,'revision',0); </screen></sect3>
+</sect2>
+
+<sect2
+id="WriteSegyStructure"
+xreflabel="WriteSegyStructure.m"
+><title
+>WriteSegyStructure</title>
+<para
+><filename
+>WriteSegyStructure</filename> can be used to write a seismic data to disk given that both
+<varname
+>SegyHeader</varname>, <varname
+>SegyTraceheaders</varname> and the data <varname
+>Data</varname> are known.
+They can be obtained using <xref linkend="ReadSegy"></xref> like ;
+<screen
+>&gt;&gt; [Data,TraceHeaderInfo,SegyTraceHeaders,SegyHeader]=ReadSegy('data.segy');</screen></para>
+
+<para
+>To write the data using <filename
+>WriteSegyStructure</filename> simply do 
+<screen
+>&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,SegyTraceHeaders,Data);</screen></para>
+
+
+<sect3
+><title
+>Force  revision</title> 
+<screen
+>&gt;&gt; % Revision 0
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                      SegyTraceHeaders,Data,'revision',0);
+&gt;&gt; % Revision 1
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                      SegyTraceHeaders,Data,'revision',1);</screen></sect3>
+
+<sect3
+><title
+>Force Data Sample Format</title> 
+<para
+> See <xref linkend="DataSampleFormatSupport"></xref> for a list of valid and supported values for the datasample format <varname
+>dsf</varname>.</para>
+<screen
+>&gt;&gt; % To force the use of SEG Y revision 0 and data sampling format IEEE :
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                       SegyTraceHeaders,Data,'revision',1,'dsf',5);</screen></sect3>
+</sect2>
+
+<!-- WriteSegyTraceHeaderValue-->
+
+<sect2 id="WriteSegyTraceHeaderValue" xreflabel="WriteSegyTraceHeadervalue.m">
+<title>WrityeSegyTraceHeaderValue</title>
+<para>
+<filename>WriteSegyTraceHeaderValue.m</filename>(<xref linkend="_WriteSegyTraceHeaderValue"></xref>) writes one trace header from an array into the Trace Hader of a &sgy; file.
+</para>
+
+<sect3><title>using keyword</title>
+<para>To read a read, edit and write the 'cdp' header values (see <xref linkend="secTraceHeaderDef"></xref> for a list of defined keys) use for example:</para>
+<programlisting>
+cdp=ReadSegyTraceHeaderValue(file,'key','cdp');  % READ CDP
+cdp=cdp+10;                                      % change CDP 
+WriteSegyTraceHeaderValue(file,cdp,'key','cdp'); % UPDATE CDP
+</programlisting>
+</sect3>
+
+<sect3><title>using location+precision</title>
+<para>
+To manually update a trace header at a specific location, using a specific data type (precision) use for for example:
+</para>
+
+<programlisting>
+% Update all trace header values starting at position 72, in integer32
+% format, to the values in array 'data'
+ntraces=311;
+data=[1:1:311]*10;
+WriteSegyTraceHeaderValue(filename,data,'pos',72,'precision','int32');
+d_header=ReadSegyTraceHeaderValue(filename,'pos',72,'precision','int32');
+</programlisting>
+
+<para>
+Take a look at <xref linkend="_TraceHeaderDef"></xref>, or check the manual at <xref linkend="secTraceHeaderDef"></xref>
+to find the position of all trace header values.
+</para>
+
+</sect3>
+</sect2>
+
+
+
+</sect1>

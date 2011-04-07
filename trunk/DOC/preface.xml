@@ -1,0 +1,25 @@
+<preface id="about">
+  <title>About Segymat</title>
+  
+  <para>
+    Matlab is a very helpful tool to analyze seismic data. The most common standard for reading and writing seismic data is the SEG Y standard.
+    is a set m-files that aims to ease importing and exporting SEG-Y files from Matlab.
+  </para>
+  <para>
+  SegyMAT aims to: completely support &sgy; revision 1; be easy to use in other projects; be compileable using the Matlab Compiler.
+  </para>
+  <para>
+  SegyMAT is not fast. SegyMAT makes heavy use of 'structures'. Unfortunately structures are not very effective in terms of speed in Matlab. (Or they have not been implemented very effectively in SegyMAT). However structures make the implementation easier, and more robust.
+  </para>
+  <para>
+  The latest version of  is always available from Sourceforge : .
+  </para>
+  <para>
+    The latest version of &segymat; is always available from Sourceforge : &segymatweb;.
+  </para>
+
+  <para>
+    Mail any questions to <ulink url="mailto:&segymat-email;"><citetitle>&segymat-email;</citetitle></ulink> 
+  </para>
+
+</preface>

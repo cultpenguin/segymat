@@ -1,0 +1,43 @@
+<sect1
+id="Requirements"
+xreflabel="requirements"
+><title
+>Requirements</title>
+<para
+> has been developed and tested using Matlab 7.5 (R2007b) running on Linux and Windows XP. Any other Matlab supported platform should work.</para>
+<para
+>As of version 1.02 Octave (version &gt;2.1.64) is supported as well.</para>
+<para
+>No Matlab toolboxes are required.</para>
+
+<sect2
+id="LocalInstall"
+xreflabel="local installation"
+><title
+>Local Installation</title>
+<para
+>If you run Matlab with Java extensions (the default), you can run the pathtool, select the  install directory (and subfolder GUI), and save the path and you are done ;
+<programlisting>&gt;&gt; pathtool</programlisting></para>
+<para
+>To install  without the Java gui (using '<varname>matlab -nojvm</varname>') you can manually add the  folder to Matlabs search path. If you unpack  to /usr/share/matlab/SegyMAT simply do :
+<programlisting>
+&gt;&gt; addpath /usr/share/matlab/SegyMAT -begin
+&gt;&gt; addpath /usr/share/matlab/SegyMAT/GUI -begin
+</programlisting>
+</para></sect2>
+
+<sect2
+id="GlobalInstall"
+xreflabel="global installation"
+><title
+>Global Installation</title>
+<para
+>For a system wide installation add the following line (substituting the location of the  directory) 
+<programlisting>
+&gt;&gt; addpath /usr/share/matlab/SegyMAT -begin
+&gt;&gt; addpath /usr/share/matlab/SegyMAT/GUI -begin
+</programlisting>
+to <filename
+>pathdef.m</filename>, usually located in <filename
+>$MATLAB_INSTALL/toolbox/local/pathdef.m</filename></para></sect2>
+</sect1>
