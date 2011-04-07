@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <!DOCTYPE article SYSTEM "/usr/share/xml/docbook/schema/dtd/4.3/docbookx.dtd"[
 <!ENTITY segymat-date SYSTEM "date.xml">
+<!ENTITY segymat-revision SYSTEM "revision.xml">
 <!ENTITY segymat-version SYSTEM "version.xml">
 <!ENTITY segymat-bookinfo SYSTEM "bookinfo.xml">
 <!ENTITY segymat-prefaceSYSTEM "preface.xml">
@@ -32,7 +33,7 @@
     </author>
     
     <copyright>
-      <year>2001-2010</year>
+      <year>2001-2011</year>
       <holder role="mailto:thomas.mejer.hansen@gmail.com">Thomas Mejer Hansen</holder>
     </copyright>
     <legalnotice>
@@ -70,8 +71,9 @@
 
     </abstract>
 
-  </articleinfo>
+    &segymat-revision;
 
+  </articleinfo>
 
 &segymat-install;
 &segymat-format;
