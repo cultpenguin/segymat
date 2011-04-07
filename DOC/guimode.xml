@@ -1,0 +1,137 @@
+<sect1 id="gui"><title>Graphical User Interface utilities</title>
+<para>
+Note : this section (all graphical related features) applies only to Matlab, and is unsupported in Octave.
+</para>
+
+
+<sect2 id="segymat_gui"><title>&segymat; GUI</title>
+<para>
+Calling <varname>segymat</varname> opens a graphical user interface for viewing and editing &sgy; formatted files:
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/segymat_gui_data_obh.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>segymat GUI</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+</para>
+
+
+<sect3 id="gui_reading_simple"><title>simple reading &sgy; files</title>
+<para>
+Select File->Open to select a &sgy; file, which will be read using the original &sgy; header information. 
+</para>
+</sect3>
+<sect3 id="gui_reading_expert"><title>expert reading &sgy; files</title>
+<para>
+Select File->Open(expert) to handle &sgy; header values prior to reading the file, and to read in only part of the &sgy; file.
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/segymat_gui_open_expert.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>Open (expert) - segymat GUI</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="gui_shortcut"><title>Keyboard shortcuts for moving/zooming/gain</title>
+<para>
+zooming in: +
+zooming out: -
+
+<table id="keyboard_shortcuts" colsep="10" tocentry="1" >
+<title>Keyboard shortcuts</title>
+<tgroup cols="2" align="char" >
+<thead>
+<row><entry>Shortcut</entry><entry>Action</entry></row>
+</thead>
+<tbody>
+<row><entry>+</entry><entry>Increase gain</entry></row>
+<row><entry>-</entry><entry>Decrease gain</entry></row>
+<row><entry>4</entry><entry>Pan left</entry></row>
+<row><entry>6</entry><entry>Pan right</entry></row>
+<row><entry>2</entry><entry>Pan down</entry></row>
+<row><entry>8</entry><entry>Pan up</entry></row>
+
+<row><entry>1</entry><entry>Pan down/left</entry></row>
+<row><entry>3</entry><entry>Pan down/right</entry></row>
+<row><entry>7</entry><entry>Pan up/left</entry></row>
+<row><entry>9</entry><entry>Pan up/right</entry></row>
+
+<row><entry>5</entry><entry>Center</entry></row>
+
+<row><entry>a / arrow left</entry><entry>Zoom in</entry></row>
+<row><entry>z / arrow right3</entry><entry>Zoom out</entry></row>
+
+<row><entry>h</entry><entry>toggle hiding plotting preferences</entry></row>
+
+
+</tbody></tgroup></table>
+
+</para>
+</sect2>
+
+<sect2 id="gui_edit_segyheader"><title>Editing the &sgy; header</title>
+<para>
+<varname>GUIEditSegyHeader</varname> is a GUI for editing the &sgy; header.
+</para>
+<programlisting>
+[Data,STH,SH]=ReadSegy('841_m.sgy');
+SH=GUIEditSegyHeader(SH);
+</programlisting>
+
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/segymat_gui_segyheader.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>Editing the SGY binary header - segymat GUI</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+
+
+<para>
+From this GUI it is possible to view and edit the Textual File Header (<xref linkend="gui_edit_segyheader"></xref>)
+</para>
+</sect2>
+
+
+<sect2 id="gui_edit_textual_file_header"><title>Viewing the textual file header</title>
+<para>
+<varname>GUIEditTextualFileHeader</varname> is a GUI for viewing the textual file header (either in ASCII of EBCDIC format) [editing is not yet implemented].
+</para>
+<programlisting>
+[Data,STH,SH]=ReadSegy('841_m.sgy');
+SH=GUIEditTextualFileHeader(SH);
+</programlisting>
+
+
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/segymat_gui_textualheader.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>Editing the textual header - segymat GUI</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+<para>
+This GUI is integrated into <varname> GUIEditSegyHeader</varname>(<xref linkend="gui_edit_segyheader"></xref>).
+</para>
+</sect2>
+
+
+</sect1>

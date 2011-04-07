@@ -1,0 +1,3 @@
+To create the documentation use 'docbook-utils.dsl'
+I had to edit in /usr/share/sgml/docbook/utils-0.6.13/docbook-utils.dsl to make it work properly.
+jw --dsl docbook-utils, claims to use the correct dsl file, but e.g. css style sheets is not properly used.

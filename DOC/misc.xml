@@ -1,0 +1,50 @@
+<sect1 id="misc" xreflabel="misc"><title>Misc</title>
+<para>Here are some m-files developed as part of &segymat;</para>
+
+<sect2 id="visualaization" xreflabel="vis"><title>Visualization</title>
+<para></para>
+
+<sect3 id="wiggle" xreflabel="wiggle"><title>wiggle</title>
+<para><varname>wiggle.m</varname> is used to plot seismic data using using wiggle or variable area type plotting, optionally on top of an image plot of the data wiggle type:
+<programlisting>
+[Data,STH,SH]=ReadSegy('841_m.sgy','jump',10);
+                      % get from 
+                      % http://gdr.nrcan.gc.ca/seismtlitho/archive/le/stacks_fgp_e.php
+wiggle([STH.TraceNumber],SH.time,Data,'wiggle',700);
+</programlisting>
+
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/wiggle.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>wiggle</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+</para>
+
+<para>Variable area:
+<programlisting>
+[Data,STH,SH]=ReadSegy('841_m.sgy','jump',10,'minmax','TraceNumber',3500,4000,'trange',8,10);
+wiggle([STH.TraceNumber],SH.time,Data,'VA',700);
+</programlisting>
+
+<informalfigure>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="figures/wiggle_VA.png" format="PNG"></imagedata>
+  </imageobject> 
+  <textobject>
+    <phrase>wiggle</phrase>
+  </textobject> 
+</mediaobject>
+</informalfigure>
+</para>
+
+
+
+</sect3>
+</sect2>
+</sect1>

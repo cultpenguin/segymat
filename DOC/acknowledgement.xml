@@ -1,0 +1,7 @@
+<sect1 id="acknowledgement">
+  <title>Acknowledgement</title>
+<para>Thanks to Brian Farrelly, Norsk Hydro Research Centre, Bergen, Norway, for supplying functions to convert between IBM Floating Point format and doubles. (June, 2002. ver 0.35 -&gt;)</para>
+<para>Thanks to Urs Boeringer for adding a patch to WriteSegy, to enable use of an arbitrary set of TraceHeader values. (March 2007. ver 1.08 -&gt;)</para>
+<para>Thanks to <ulink url="http://sourceforge.net/"><citetitle
+>Sourceforge</citetitle></ulink> for hosting the project.</para>
+</sect1>

@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<book
+id="index"
+><bookinfo
+><title
+>SegyMAT</title><edition
+>1.08</edition><pubdate
+>Wed Mar 28 12:31:34 CEST 2007</pubdate><authorgroup
+><author
+><firstname
+>Thomas Mejer</firstname><surname
+>Hansen</surname>
+<affiliation><address format="linespecific">
+Niels Bohr Institute</address>
+<address format="linespecific">Juliane Maries Vej 22, Dk-2100 Copenhagen East</address></affiliation>
+</author></authorgroup>
+<copyright
+><year
+>2001, 2002, 2003, 2004, 2005, 2006, 2007</year><holder
+>Thomas Mejer Hansen, Niels Bohr Institute, University of Copenhagen, Denmark. </holder></copyright><legalnotice
+><para
+>    This library is free software; you can redistribute it and/or
+    modify it under the terms of the 
+    <ulink
+url="http://www.gnu.org/copyleft/lesser.html"
+><citetitle
+>GNU Lesser General Public License</citetitle></ulink>
+    as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version</para><para
+>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.</para><para
+>You should have received a copy of the GNU Lesser General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+    </para></legalnotice><abstract
+><para
+>A Matlab program for reading and writing SEG Y files.</para></abstract><revhistory
+><revision
+><revnumber
+>1.04</revnumber><date
+>15 Sep 2006</date><authorinitials
+>TMH</authorinitials><revremark
+>More eficient reading of very large SEG-Y files</revremark></revision><revision
+><revnumber
+>1.03</revnumber><date
+>15 Dec 2004</date><authorinitials
+>TMH</authorinitials><revremark
+>Mostly bugfixes for better use with Ocatve</revremark></revision><revision
+><revnumber
+>1.0</revnumber><date
+>15 Oct 2004</date><authorinitials
+>TMH</authorinitials><revremark
+>Initial 1.0 release</revremark></revision></revhistory></bookinfo><toc
+id="segymat-toc"
+></toc><preface
+id="about"
+><title
+>About Segymat</title><para
+>Matlab is a very helpful tool to analyze seismic data. The most common standard for reading and writing seismic data is the SEG Y standard.
+SegyMAT is a set m-files that aims to ease importing and exporting SEG-Y files from Matlab.</para><para
+>SegyMAT aims to completely support the SEG-Y revision 1.</para><para
+>SegyMAT aims to be easy to use in other projects.</para><para
+>SegyMAT aims to be compileable using the Matlab Compiler.</para><para
+>SegyMAT is not fast. SegyMAT makes heavy use of 'structures'. Unfortunately structures are not very effective in terms of speed in Matlab. (Or they have not been implemented very effectively in SegyMAT). However structures make the implementation easier, and more robust.</para><para
+>The latest version of SegyMAT is always available from Sourceforge : http://segymat.sourceforge.net/.</para><para
+>Mail any questions to tmh@gfy.ku.dk</para></preface><chapter
+id="install"
+><title
+>Install SegyMAT</title><sect1
+id="requirements"
+xreflabel="requirements"
+><title
+>Requirements</title><para
+>SegyMAT has been developed and tested using Matlab 6.5 (R13.5) and 7.0 (R14) running on Linux and Windows XP. Any other Matlab supported platform should work.</para><para
+>As of version 1.02 Octave (version &gt;2.1.64) is supported as well.</para><para
+>No Matlab toolboxes are required.</para></sect1><sect1
+id="localinstall"
+xreflabel="local installation"
+><title
+>Local Installation</title><para
+>If you run Matlab with Java extensions (the default), you can run the pathtool, select the SegyMAT install directory, and save the path and you are done ;
+<programlisting
+format="linespecific"
+>&gt;&gt; pathtool</programlisting></para><para
+>To install SegyMAT without the Java gui (using '<varname
+>matlab -nojvm</varname>') you can manually add the SegyMAT folder to Matlabs search path. If you unpack SegyMAT to /usr/share/matlab/SegyMAT simply do :
+<programlisting
+format="linespecific"
+>&gt;&gt; addpath /usr/share/matlab/SegyMAT -begin</programlisting></para></sect1><sect1
+id="globalinstall"
+xreflabel="global installation"
+><title
+>Global Installation</title><para
+>For a system wide installation add the following line (substituting the location of the SegyMAT directory) 
+<programlisting
+format="linespecific"
+>&gt;&gt; addpath /usr/share/matlab/SegyMAT -begin</programlisting>
+to <filename
+moreinfo="none"
+>pathdef.m</filename>, usually located in <filename
+moreinfo="none"
+>$MATLAB_INSTALL/toolbox/local/pathdef.m</filename></para></sect1></chapter><chapter
+id="format"
+><title
+>The SEG-Y Format</title><para
+>SegyMAT has been implemented using the
+<ulink
+url="http://seg.org/publications/tech-stand/"
+><citetitle
+>SEG-Y standard</citetitle></ulink> as defined by 
+SEG <footnote
+><para
+>The Society of Exploration Geophysicists</para></footnote></para><para
+>SegyMAT also has support for reading and writing the format used by CWP's <ulink
+url="http://www.cwp.mines.edu/cwpcodes/"
+><citetitle
+>Seismic Unix</citetitle></ulink> package (the SU format), which is merely a simplified version the SEG-Y format.</para><para
+>A short description of the formats follows here</para><sect1
+id="segystructure"
+><title
+>Structure of a SEG-Y file</title><para
+>A SEG-Y file consists of a 3600 byte header; a number of extended textual headers; a number trace headers+data.</para><itemizedlist
+mark="closedcircle"
+><listitem
+><para
+>A 3200 byte Textual File Header, ASCII or EBCDIC formated.</para></listitem><listitem
+><para
+>A 400 byte Binary File Header</para></listitem><listitem
+><para
+>A (optional) number of 'Extended Textual File Headers', 3200 bytes long, ASCII or EBCDIC formatted.</para></listitem><listitem
+><para
+>A number of traces, separated into a 240 bytes long binary Trace Header, followed by the Trace Data, that can be formatted in a number of ways : IEEE, IBM Floating Point, 1,2 and 4 byte two's complement integers.</para></listitem></itemizedlist></sect1><sect1
+id="sustructure"
+><title
+>Structure of a SU file</title><para
+>A SU formatted file is just a simple version of a SEG-Y file, containing only trace information :</para><itemizedlist
+mark="closedcircle"
+><listitem
+><para
+>No 3200 byte textual header and no extended textual headers.</para></listitem><listitem
+><para
+>No binary SEG-Y header.</para></listitem><listitem
+><para
+>The data must be formatted as IEEE.</para></listitem><listitem
+><para
+>Data can be both little and big endian formatted.</para></listitem></itemizedlist></sect1><sect1
+id="support"
+><title
+>What is supported in SegyMAT ?</title><para
+>As of version 1.08
+ SegyMAT supports the following parts of the SEG-Y revision 0 and 1.</para><sect2
+id="textualheaderssupport"
+><title
+>Textual file headers</title><para
+>The Textual 400 byte file header can be both ASCII and EBCDIC formatted, using SEG-Y revision 1.</para><para
+>Both ASCII and EBCDIC are supported since version 0.39.</para></sect2><sect2
+id="extendedtextualheaders"
+><title
+>Extended Textual Headers</title><para
+>In SEG-Y revision 1 a number of extended textual file headers are allowed.</para><para
+>As of version 0.9 extended textual headers are supported by SegyMAT.</para></sect2><sect2
+id="datasampleformatsupport"
+><title
+>Data Sample Format / Revision</title><para
+>The following data formats are supported :</para><indexterm
+significance="normal"
+><primary
+>SEG-Y</primary><secondary
+>formats</secondary></indexterm><para
+><table
+colsep="10"
+tocentry="1"
+id="suprev0"
+><title
+>Supported SEG-Y revision 0 (1975)</title><tgroup
+cols="3"
+align="char"
+><thead
+><row
+><entry
+>Type</entry><entry
+>DataSampleFormat</entry><entry
+>Supported</entry></row></thead><tbody
+><row
+><entry
+>1</entry><entry
+>4 Byte IBM Floating Point</entry><entry
+>Yes</entry></row><row
+><entry
+>2</entry><entry
+>4 Byte Fixed Point</entry><entry
+>No</entry></row><row
+><entry
+>3</entry><entry
+>2 Byte Fixed Point</entry><entry
+>No</entry></row><row
+><entry
+>4</entry><entry
+>4 Byte Fixed Point with Gain</entry><entry
+>No</entry></row></tbody></tgroup></table></para><para
+><table
+colsep="10"
+tocentry="1"
+id="suprev1"
+><title
+>Supported SEG-Y revision 1 (2002)</title><tgroup
+cols="3"
+align="char"
+><thead
+><row
+><entry
+>Type</entry><entry
+>DataSampleFormat</entry><entry
+>Supported</entry></row></thead><tbody
+><row
+><entry
+>1</entry><entry
+>4 Byte IBM Floating Point</entry><entry
+>Yes</entry></row><row
+><entry
+>2</entry><entry
+>4 Byte two's complement integer</entry><entry
+>Yes</entry></row><row
+><entry
+>3</entry><entry
+>2 Byte two's complement integer</entry><entry
+>Yes</entry></row><row
+><entry
+>4</entry><entry
+>4 Byte Fixed Point with Gain</entry><entry
+>No</entry></row><row
+><entry
+>5</entry><entry
+>4 Byte IEEE FLoating Pint</entry><entry
+>Yes</entry></row><row
+><entry
+>6</entry><entry
+>Not Specified</entry><entry
+></entry></row><row
+><entry
+>7</entry><entry
+>Not Specified</entry><entry
+></entry></row><row
+><entry
+>8</entry><entry
+>1 Byte Fixed Point with Gain</entry><entry
+>Yes</entry></row></tbody></tgroup></table></para><para
+>The type number is the number that should be used as '<varname
+>dsf</varname>' (Data Sample Format), for functions like 
+<xref
+linkend="readsegy"
+></xref>, 
+<xref
+linkend="writesegy"
+></xref>, 
+<xref
+linkend="writesegystructure"
+></xref>.</para></sect2></sect1></chapter><chapter
+id="reading"
+><title
+>Reading SEG-Y files</title><sect1
+id="readsegy"
+xreflabel="ReadSegy.m"
+><title
+>ReadSegy</title><para
+><varname
+>ReadSegy.m</varname> can be used to read SEG-Y files : 
+<programlisting
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=ReadSegy('data.segy');
+&gt;&gt; wiggle(Data,[],SegyHeader.time,[SegyTraceHeaders.cdp],'VA')
+&gt;&gt; imagesc([SegyTraceHeaders.cdp],[SegyHeader.time],Data)</programlisting>
+This will read <filename
+moreinfo="none"
+>data.segy</filename> using the SEG-Y revision and data sample format specified in the binary SEG-Y header, and plot the data.</para><para
+><varname
+>Data</varname> is a 2D variable containing the sesimic data. [Nsamples*Ntraces];</para><para
+><varname
+>SegyTraceHeaders</varname>
+is a structure of size [1,Ntraces] structure containing all the header values from the SEG-Y traces. Type <varname
+>SegyTraceHeaders</varname> to see a list of header information.
+SegyTraceHeaders(9), list all header names and values of trace number 9.</para><para
+>To access an array of trace header values simply us square brackets as :
+<screen
+format="linespecific"
+>cdp=[SegyTraceHeaders.cdp];
+offset=[SegyTraceHeaders.offset];
+...</screen></para><para
+><varname
+>SegyHeader</varname>
+is a structure containing all the SEG-Y header values. Typing '&gt;&gt; SegyHeader' will list the names and values of all SEG-Y header values.</para><para
+>A number of arguments can be given to <filename
+moreinfo="none"
+>ReadSegy</filename>, controlling which part of the data set to read, and the format.</para><sect2
+><title
+>To read time slice 0.5 &lt; t &lt; 5</title><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'trange',.5,3);</screen></sect2><sect2
+><title
+>Read only every 5th trace</title><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'jump',5);</screen></sect2><sect2
+><title
+>Read data in a CDP header range : 5000&lt;cdp&lt;5800</title><para
+><varname
+>cdp</varname> can be changed to any other valid header name</para><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'minmax','cdp'5000,5800);</screen></sect2><sect2
+><title
+>Read only header values</title><para
+>In some cases it can be desirable only to read the SEG-Y header files (file header and traceheaders). This will return an empty <filename
+moreinfo="none"
+>Data</filename> variable.</para><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'SkipData',1);</screen></sect2><sect2
+><title
+>SEG-Y format revision</title><para
+> SEG-Y format revision number can be '0' (1975) or 
+  '1' (2002).
+  By default the SEG-Y format revision number is read in the 
+  binary header, but this can be overruled using :</para><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'revision',0);</screen></sect2><sect2
+><title
+>A specific Data Sample Format</title><para
+>One can overrule the Data Sample Format listed in the binary SEG-Y header, using the 
+<varname
+>dsf</varname> argument. See <xref
+linkend="datasampleformatsupport"
+></xref> for a list of valid and supported values.</para><screen
+format="linespecific"
+>&gt;&gt; % Rev 0, IBM FLOATING POINT
+&gt;&gt;  [Data,SegyTraceHeaders,SegyHeader]=
+       ReadSegy(filename,'revision',0,'dsf',1);
+&gt;&gt; % Rev 1, IEEE FLOATING POINT
+&gt;&gt;  [Data,SegyTraceHeaders,SegyHeader]=
+       ReadSegy(filename,'revision',1,'dsf',5);</screen><para
+>If <varname
+>dsf</varname> is set to 5 and <varname
+>revision</varname> to 0, a warning message will occur, since data sample format 5 is only defined in revision 1. The revision is then automatically set to 1.</para></sect2><sect2
+><title
+>Force the use of a specific SegyHeader</title><screen
+format="linespecific"
+>&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'SegyHeader',SegyHeader);</screen></sect2></sect1><sect1
+id="readsegyfast"
+xreflabel="ReadSegyFast.m"
+><title
+>ReadSegyFast</title><para
+><varname
+>ReadSegyFast.m</varname> is a faster implementation of <xref
+linkend="readsegy"
+></xref> since no trace header values are read. Thus this function will just return the seismic data and the SEG-Y-header. e.g. :
+<programlisting
+format="linespecific"
+>&gt;&gt; [Data,SegyHeader]=ReadSegy('data.segy');
+&gt;&gt; imagesc(Data)</programlisting>
+This will read <filename
+moreinfo="none"
+>data.segy</filename> using the SEG-Y revision and data sample format specified in the binary SEG-Y header, and plot the data.</para><sect2
+><title
+>ReadSegyFast options</title><para
+>As for <xref
+linkend="readsegy"
+></xref> the SEG-Y-revision a number of option can be used. <xref
+linkend="readsegyfast"
+></xref> uses the same convention as <xref
+linkend="readsegy"
+></xref>.</para><para
+>The data sample format can be chosen using the 'revision' and 'dsf' tags. Also a 'SegyHeader' can be specified.</para><para
+><xref
+linkend="readsegyfast"
+></xref> is currently optimized only for reading the whole SEG-Y-file, but the options 'jump' and 'trange' can be used (but will currently not result in faster read times).</para><para
+>Since the trace header values are not read, the 'minmax' option is not supported.</para></sect2></sect1><sect1
+id="readsegyheader"
+xreflabel="ReadSegyHeader.m"
+><title
+>ReadSegyHeader</title><para
+><varname
+>ReadSegyHeader.m</varname> reads the Binary Segy Header only. It can be called with the same options as <xref
+linkend="readsegy"
+></xref></para><sect2
+><title
+>Force using little endian :</title><screen
+format="linespecific"
+>&gt;&gt; SegyHeader=ReadSegyHeader(filename,'endian','l');</screen></sect2></sect1><sect1
+id="readsegytraceheadervalue"
+xreflabel="ReadSegyTraceHeadervalue.m"
+><title
+>ReadSegyTraceHeaderValue</title><para
+><varname
+>ReadSegyTraceHeaderValue.m</varname> reads one trace header value into an array. This approach is much faster than to read the whole SEG-Y-file</para><sect2
+><title
+>using keyword</title><para
+>To read a trace header value by its trace header key use</para><screen
+format="linespecific"
+>cdp=ReadSegyTraceHeaderValue(filename,'key','cdp');
+SourceX=ReadSegyTraceHeaderValue(filename,'key','SourceX');
+SourceY=ReadSegyTraceHeaderValue(filename,'key','SourceY');
+plot(SourceX,SourceY)</screen><para
+>Only 
+<varname
+>SourceX</varname>,
+<varname
+>SourceY</varname> and
+<varname
+>cdp</varname> is supported now.</para></sect2><sect2
+><title
+>using location+type</title><para
+>To read a trace header by its position in the trace header and data sample format, use</para><screen
+format="linespecific"
+>SourceX=ReadSegyTraceHeaderValue(filename,'pos',70,'precision','int32');</screen><para
+>Take a look in the source code of <filename
+moreinfo="none"
+>GetSegyTraceHeader.m</filename>
+to find the position of all trace header values.</para></sect2></sect1><sect1
+id="readsegyconstanttracelength"
+xreflabel="ReadSegyConstantTraceLength.m"
+><title
+>ReadSegyConstantTraceLength</title><para
+>Assuming a constant trace length (which is much more common than not) allows much faster reading of parts of large SEG-Y file. For example to read trace number 2030, the whole segy data cube must be sequentially read, assuming variable trace length. Assuming constant trace length the trace can be directly (and fast) located in the data cube.</para><para
+>To read trace 2000 use
+<screen
+format="linespecific"
+>[Data,SegyTraceHeader,SegyHeader]=ReadSegyConstantTraceLength(filename,'trace',2000);</screen>
+To read traces 1-2000 and 2020-2040 use
+<screen
+format="linespecific"
+>[Data,SegyTraceHeader,SegyHeader]=ReadSegyConstantTraceLength(filename,'trace',[1:2000,2020:2040]);</screen></para><sect2
+><title
+>using keywords</title><para
+>Several keywords can be used to eficiently read parts of larger SEG-Y files.</para><para
+>To read only the part of a SEG-Y file with SourceX between 1000-2000 and SourceY between 4000-5000 use :
+<screen
+format="linespecific"
+>[Data,SegyTraceHeader,SegyHeader]=ReadSegyConstantTraceLength(filename,'minmax','SourceX',1000,2000,'minmax','SourceY',4000,5000]);</screen></para></sect2></sect1><sect1
+id="readsu"
+xreflabel="ReadSu.m"
+><title
+>ReadSu</title><para
+><varname
+>ReadSu.m</varname> works similar to <xref
+linkend="readsegy"
+></xref> and the same input parameters can be used. A <varname
+>SuHeader</varname> can optionally be returned, that simple is a mostly empty SEG-Y file header.</para><para
+><screen
+format="linespecific"
+>&gt;&gt; [Data,SuTraceHeaders,SuHeader]=ReadSu(filename);</screen></para></sect1></chapter><chapter
+id="writing"
+><title
+>Writing a SEG Y file</title><para
+><xref
+linkend="writesegy"
+></xref> is available to write a Matrix to disk as a SEG-Y file.</para><para
+><xref
+linkend="writesegystructure"
+></xref> is available to write A Segy File using a specified set of headers. This is of special use if one wants to load a seismic data set, work with the data in Matlab, and the write the data to disk using the same header values.</para><sect1
+id="writesegy"
+xreflabel="WriteSegy.m"
+><title
+>WriteSegy</title><para
+><filename
+moreinfo="none"
+>WriteSegy</filename> can be used to save a matrix of data, in Matlab as a SEG-Y file.</para><sect2
+><title
+>Specify values for the SEGY Header</title><para
+>Here 
+<varname
+>dt</varname> is a scalar and 
+<varname
+>Inline</varname>,
+<varname
+>Crossline</varname>,
+<varname
+>X</varname> and
+<varname
+>Y</varname>
+are arrays of valies of size size(data,2)</para><screen
+format="linespecific"
+>&gt;&gt; WriteSegy('datacube.segy',data,
+    'dt',.004,'Inline3D',Inline,'Crossline3D',Crossline,
+    'cdpX',X,'cdpY',Y);</screen></sect2><sect2
+><title
+>Specify SEG-Y revision</title><screen
+format="linespecific"
+>&gt;&gt; WriteSegy('test.segy',seisdata,'revision',0); % SEG-Y Revision 0
+&gt;&gt; WriteSegy('test.segy',seisdata,'revision',1); % SEG-Y Revision 1</screen></sect2><sect2
+><title
+>Specify data sample format</title><para
+> See <xref
+linkend="datasampleformatsupport"
+></xref> for a list of valid and supported values for the datasample format <varname
+>dsf</varname>.</para><screen
+format="linespecific"
+>&gt;&gt; % Force Revision 1 and IEEE Floating point :
+&gt;&gt; WriteSegy('test.segy',seisdata,'dsf',5,'revision',1); 
+&gt;&gt;
+&gt;&gt; % Force Revision 0 and IBM Floating point :
+&gt;&gt; WriteSegy('test.segy',seisdata,'dsf',1,'revision',0); </screen></sect2></sect1><sect1
+id="writesegystructure"
+xreflabel="WriteSegyStructure.m"
+><title
+>WriteSegyStructure</title><para
+><filename
+moreinfo="none"
+>WriteSegyStructure</filename> can be used to write a seismic data to disk gived that both
+<varname
+>SegyHeader</varname>, <varname
+>SegyTraceheaders</varname> and the data <varname
+>Data</varname> are known.
+They can be obtained using <xref
+linkend="readsegy"
+></xref> like ;
+<screen
+format="linespecific"
+>&gt;&gt; [Data,TraceHeaderInfo,SegyTraceHeaders,SegyHeader]=ReadSegy('data.segy');</screen></para><para
+>To write the data using <filename
+moreinfo="none"
+>WriteSegyStructure</filename> simply do 
+<screen
+format="linespecific"
+>&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,SegyTraceHeaders,Data);</screen></para><sect2
+><title
+>Force SEG-Y revision</title><screen
+format="linespecific"
+>&gt;&gt; % Revision 0
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                      SegyTraceHeaders,Data,'revision',0);
+&gt;&gt; % Revision 1
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                      SegyTraceHeaders,Data,'revision',1);</screen></sect2><sect2
+><title
+>Force Data Sample Format</title><para
+> See <xref
+linkend="datasampleformatsupport"
+></xref> for a list of valid and supported values for the datasample format <varname
+>dsf</varname>.</para><screen
+format="linespecific"
+>&gt;&gt; % To force the use of SEG Y revision 0 and data sampling format IEEE :
+&gt;&gt; WriteSegyStructure('datacube.segy',SegyHeader,
+                       SegyTraceHeaders,Data,'revision',1,'dsf',5);</screen></sect2></sect1></chapter><chapter
+id="acknowledgement"
+><title
+>Acknowledgement</title><para
+>Thanks to Brian Farrelly, Norsk Hydro Research Centre, Bergen, Norway, for supplying functions to convert between IBM Floating Point format and doubles. (June, 2002. ver 0.35 -&gt;)</para><para
+>Thanks to Urs Boeringer for adding a patch to WriteSegy, to enable use of an arbitrary set of TraceHeader values. (March 2007. ver 1.08 -&gt;)</para><para
+>Thanks to <ulink
+url="http://sourceforge.net/"
+><citetitle
+>Sourceforge</citetitle></ulink> for hosting the project.</para></chapter></book>

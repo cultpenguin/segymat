@@ -1,0 +1,316 @@
+<sect1>
+<title>The  Format</title>
+<para
+> has been implemented using the
+<ulink
+url="http://seg.org/publications/tech-stand/"
+><citetitle
+> standard</citetitle></ulink> as defined by 
+SEG <footnote
+><para
+>The Society of Exploration Geophysicists</para></footnote></para>
+
+<para
+> also has support for reading and writing the format used by CWP's <ulink
+url="http://www.cwp.mines.edu/cwpcodes/"
+><citetitle
+>Seismic Unix</citetitle></ulink> package (the SU format), which is merely a simplified version the  format.</para>
+<para
+>A short description of the formats follows here</para>
+
+<sect2
+id="segystructure"
+><title
+>Structure of a  file</title>
+<para
+>A  file consists of a 3600 byte header; a number of extended textual headers; a number trace headers+data.</para>
+<itemizedlist
+mark="closedcircle"
+><listitem
+><para
+>A 3200 byte Textual File Header, ASCII or EBCDIC formated.</para></listitem>
+<listitem
+><para
+>A 400 byte Binary File Header</para></listitem>
+<listitem
+><para
+>A (optional) number of 'Extended Textual File Headers', 3200 bytes long, ASCII or EBCDIC formatted.</para></listitem>
+<listitem
+><para
+>A number of traces, separated into a 240 bytes long binary Trace Header, followed by the Trace Data, that can be formatted in a number of ways : IEEE, IBM Floating Point, 1,2 and 4 byte two's complement integers.</para></listitem></itemizedlist>
+
+
+</sect2>
+
+<sect2
+id="sustructure"
+><title
+>Structure of a SU file</title>
+<para
+>A SU formatted file is just a simple version of a  file, containing only trace information :</para>
+
+<itemizedlist
+mark="closedcircle"
+><listitem
+><para
+>No 3200 byte textual header and no extended textual headers.</para></listitem>
+<listitem
+><para
+>No binary  header.</para></listitem>
+<listitem
+><para
+>The data must be formatted as IEEE.</para></listitem>
+<listitem
+><para
+>Data can be both little and big endian formatted.</para></listitem></itemizedlist>
+
+</sect2>
+
+<sect2
+id="support"
+><title
+>What is supported in SegyMAT ?</title>
+<para
+>As of version   supports the following parts of the  revision 0 and 1.</para>
+
+<sect3
+id="TextualHeadersSupport"
+><title
+>Textual file headers</title>
+<para
+>The Textual 400 byte file header can be both ASCII and EBCDIC formatted, using  revision 1.</para>
+<para
+>Both ASCII and EBCDIC are supported since version 0.39.</para></sect3>
+
+<sect3
+id="ExtendedTextualHeaders"
+><title
+>Extended Textual Headers</title>
+<para
+>In  revision 1 a number of extended textual file headers are allowed.</para>
+<para
+>As of version 0.9 extended textual headers are supported by .</para></sect3>
+
+
+<sect3
+id="DataSampleFormatSupport"
+><title
+>Data Sample Format / Revision</title>
+<para
+>The following data formats are supported :</para>
+<indexterm
+><primary
+></primary><secondary
+>formats</secondary></indexterm>
+<para
+><table
+id="SupRev0"
+colsep="10"
+tocentry="1"
+><title
+>Supported  revision 0 (1975)</title>
+<tgroup
+cols="3"
+align="char"
+><thead
+><row
+><entry
+>Type</entry><entry
+>DataSampleFormat</entry><entry
+>Supported</entry></row></thead>
+<tbody
+><row
+><entry
+>1</entry><entry
+>4 Byte IBM Floating Point</entry><entry
+>Yes</entry></row>
+<row
+><entry
+>2</entry><entry
+>4 Byte Fixed Point</entry><entry
+>No</entry></row>
+<row
+><entry
+>3</entry><entry
+>2 Byte Fixed Point</entry><entry
+>No</entry></row>
+<row
+><entry
+>4</entry><entry
+>4 Byte Fixed Point with Gain</entry><entry
+>No</entry></row></tbody></tgroup></table></para>
+
+<para
+><table
+id="SupRev1"
+colsep="10"
+tocentry="1"
+><title
+>Supported  revision 1 (2002)</title><tgroup
+cols="3"
+align="char"
+><thead
+><row
+><entry
+>Type</entry>
+<entry
+>DataSampleFormat</entry>
+<entry
+>Supported</entry></row></thead>
+
+<tbody
+><row
+><entry
+>1</entry><entry
+>4 Byte IBM Floating Point</entry><entry
+>Yes</entry></row>
+<row
+><entry
+>2</entry><entry
+>4 Byte two's complement integer</entry><entry
+>Yes</entry></row>
+<row
+><entry
+>3</entry><entry
+>2 Byte two's complement integer</entry><entry
+>Yes</entry></row>
+<row
+><entry
+>4</entry><entry
+>4 Byte Fixed Point with Gain</entry><entry
+>No</entry></row>
+<row
+><entry
+>5</entry><entry
+>4 Byte IEEE FLoating Pint</entry><entry
+>Yes</entry></row>
+<row
+><entry
+>6</entry><entry
+>Not Specified</entry><entry
+></entry></row>
+<row
+><entry
+>7</entry><entry
+>Not Specified</entry><entry
+></entry></row>
+<row
+><entry
+>8</entry><entry
+>1 Byte Fixed Point with Gain</entry><entry
+>Yes</entry></row></tbody></tgroup></table></para>
+<para
+>The type number is the number that should be used as '<varname
+>dsf</varname>' (Data Sample Format), for functions like 
+<xref linkend="ReadSegy"></xref>,
+<xref linkend="WriteSegy"></xref>, 
+<xref linkend="WriteSegyStructure"></xref>.
+</para>
+
+</sect3>
+</sect2>
+
+<sect2 id="secTraceHeaderDef"><title>Segy Trace Header name definition</title>
+<para>
+The definition of trace header names, and the location and preicision can be found by running 
+<programlisting>
+TraceHeaderDef(1);
+</programlisting>which provides the folloing output:
+<screen>
+ POS   PREC Traece Header Name
+   0  int32 TraceSequenceLine
+   4  int32 TraceSequenceFile
+   8  int32 FieldRecord
+  12  int32 TraceNumber
+  16  int32 EnergySourcePoint
+  20  int32 cdp
+  24  int32 cdpTrace
+  28  int16 TraceIdenitifactionCode
+  30  int16 NSummedTraces
+  32  int16 NStackedTraces
+  34  int16 DataUse
+  36  int32 offset
+  40  int32 ReceiverGroupElevation
+  44  int32 SourceSurfaceElevation
+  48  int32 SourceDepth
+  52  int32 ReceiverDatumElevation
+  56  int32 SourceDatumElevation
+  60  int32 SourceWaterDepth
+  64  int32 GroupWaterDepth
+  68  int16 ElevationScalar
+  70  int16 SourceGroupScalar
+  72  int32 SourceX
+  76  int32 SourceY
+  80  int32 GroupX
+  84  int32 GroupY
+  88  int16 CoordinateUnits
+  90  int16 WeatheringVelocity
+  92  int16 SubWeatheringVelocity
+  94  int16 SourceUpholeTime
+  96  int16 GroupUpholeTime
+  98  int16 SourceStaticCorrection
+ 100  int16 GroupStaticCorrection
+ 102  int16 TotalStaticApplied
+ 104  int16 LagTimeA
+ 106  int16 LagTimeB
+ 108  int16 DelayRecordingTime
+ 110  int16 MuteTimeStart
+ 112  int16 MuteTimeEND
+ 114 uint16 ns
+ 116 uint16 dt
+ 118  int16 GainType
+ 120  int16 InstrumentGainConstant
+ 122  int16 InstrumentInitialGain
+ 124  int16 Correlated
+ 126  int16 SweepFrequenceStart
+ 128  int16 SweepFrequenceEnd
+ 130  int16 SweepLength
+ 132  int16 SweepType
+ 134  int16 SweepTraceTaperLengthStart
+ 136  int16 SweepTraceTaperLengthEnd
+ 138  int16 TaperType
+ 140  int16 AliasFilterFrequency
+ 142  int16 AliasFilterSlope
+ 144  int16 NotchFilterFrequency
+ 146  int16 NotchFilterSlope
+ 148  int16 LowCutFrequency
+ 150  int16 HighCutFrequency
+ 152  int16 LowCutSlope
+ 154  int16 HighCutSlope
+ 156  int16 YearDataRecorded
+ 158  int16 DayOfYear
+ 160  int16 HourOfDay
+ 162  int16 MinuteOfHour
+ 164  int16 SecondOfMinute
+ 166  int16 TimeBaseCode
+ 168  int16 TraceWeightningFactor
+ 170  int16 GeophoneGroupNumberRoll1
+ 172  int16 GeophoneGroupNumberFirstTraceOrigField
+ 174  int16 GeophoneGroupNumberLastTraceOrigField
+ 176  int16 GapSize
+ 178  int16 OverTravel
+ 180  int32 cdpX
+ 184  int32 cdpY
+ 188  int32 Inline3D
+ 192  int32 Crossline3D
+ 196  int32 ShotPoint
+ 200  int16 ShotPointScalar
+ 202  int16 TraceValueMeasurementUnit
+ 204  int32 TransductionConstantMantissa
+ 208  int16 TransductionConstantPower
+ 210  int16 TransductionUnit
+ 212  int16 TraceIdentifier
+ 214  int16 ScalarTraceHeader
+ 216  int16 SourceType
+ 218  int32 SourceEnergyDirectionMantissa
+ 222  int16 SourceEnergyDirectionExponent
+ 224   in32 SourceMeasurementMantissa
+ 228  int16 SourceMeasurementExponent
+ 230  int16 SourceMeasurementUnit
+ 232  int32 UnassignedInt1
+ 236  int32 UnassignedInt2
+</screen>
+</para>
+</sect2>
+
+</sect1>
