@@ -63,35 +63,27 @@
   (C) 2001-2004 Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
  
 
-    Overloaded methods:
-       H5Z.Contents
-       H5T.Contents
-       H5S.Contents
-       H5R.Contents
-       H5P.Contents
-       H5ML.Contents
-       H5I.Contents
-       H5G.Contents
-       H5F.Contents
-       H5E.Contents
-       H5D.Contents
-       H5A.Contents
-       H5.Contents
-       serial/Contents
-       instrument/Contents
-       icinterface/Contents
-       mmreader/Contents
-       audiorecorder/Contents
-       audioplayer/Contents
-       rsmd/Contents
-       resultset/Contents
-       drivermanager/Contents
-       driver/Contents
-       dmd/Contents
-       dbtbx/Contents
-       database/Contents
-       cursor/Contents
-       strel/Contents
+    Overloaded functions or methods (ones with the same name in other directories)
+       help H5T/Contents.m
+       help H5D/Contents.m
+       help H5P/Contents.m
+       help H5R/Contents.m
+       help H5F/Contents.m
+       help H5E/Contents.m
+       help H5A/Contents.m
+       help H5S/Contents.m
+       help H5I/Contents.m
+       help H5G/Contents.m
+       help H5ML/Contents.m
+       help H5/Contents.m
+       help H5Z/Contents.m
+       help timer/Contents.m
+       help icinterface/Contents.m
+       help instrument/Contents.m
+       help serial/Contents.m
+       help audiorecorder/Contents.m
+       help audioplayer/Contents.m
+       help strel/Contents.m
 ]]></programlisting></para>
 </sect2>
 
@@ -187,6 +179,29 @@
 ]]></programlisting></para>
 </sect2>
 
+<sect2 id="_MakeXmlRef"><title>MakeXmlRef</title>
+<para><programlisting><![CDATA[]]></programlisting></para>
+</sect2>
+
+<sect2 id="_MergeSegy"><title>MergeSegy</title>
+<para><programlisting><![CDATA[  MergeSegy : Merge multiple SEGY files
+ 
+  Example :
+     MergeSegy('*.sgy','merge.sgy')
+ 
+     f{1}='file1.sgy';
+     f{2}='file2.sgy';
+     f{3}='file3.sgy';
+     MergeSegy(f,'merge.sgy')
+ 
+ 
+  Note: All imput segy files must have the same constant trace length
+        The SEGY header of the merged SEGY file will be the SEGY header
+        form the first input SEGY file.
+ 
+ 
+]]></programlisting></para>
+</sect2>
 
 <sect2 id="_PutSegyHeader"><title>PutSegyHeader</title>
 <para><programlisting><![CDATA[  PutSegyHeader : Writes SEG-Y header to disk.
@@ -472,6 +487,27 @@
 ]]></programlisting></para>
 </sect2>
 
+<sect2 id="_SegyMAT_GAIN"><title>SegyMAT_GAIN</title>
+<para><programlisting><![CDATA[  SegyMAT_GAIN : Gain plugin for SegyMAT
+ 
+  [Data,SegyTraceHeaders,SegyHeader]=SegyMAT_GAIN(Data,SegyTraceHeaders,SegyHeader,varargin);
+ 
+  ex. AGC using AGC window of 100 ms :
+  [Data]=SegyMAT_GAIN(Data,SegyTraceHeaders,SegyHeader,'agc',.1);
+  ex. apply t^(pow), pow=2
+  [Data]=SegyMAT_GAIN(Data,SegyTraceHeaders,SegyHeader,'pow',2);
+  
+ 
+  (C) Thomas Mejer Hansen (thomas@cultpenguin.com), 2002
+ 
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_SegyMATdemo1"><title>SegyMATdemo1</title>
+<para><programlisting><![CDATA[  SegyMATdemo1 : Creates, Reads and plots a Segy File;
+]]></programlisting></para>
+</sect2>
+
 <sect2 id="_SegymatHelp"><title>SegymatHelp</title>
 <para><programlisting><![CDATA[]]></programlisting></para>
 </sect2>
@@ -519,13 +555,6 @@
  
   See also: ReadSegyTraceHeaderValue, WriteSegyTraceHeaderValue
  
-]]></programlisting></para>
-</sect2>
-
-<sect2 id="_TraceheaderToInfo"><title>TraceheaderToInfo</title>
-<para><programlisting><![CDATA[  TraceHeaderToInfo : Extract traceheader values from structures into an array 
- 
- [HeaderInfo]=TraceheaderToInfo(SegyTraceHeaders)
 ]]></programlisting></para>
 </sect2>
 
@@ -641,6 +670,10 @@
 ]]></programlisting></para>
 </sect2>
 
+<sect2 id="_cmap_rwb"><title>cmap_rwb</title>
+<para><programlisting><![CDATA[]]></programlisting></para>
+</sect2>
+
 <sect2 id="_ebcdic2ascii"><title>ebcdic2ascii</title>
 <para><programlisting><![CDATA[  ebcdic2ascii : Converts EBCDIC formatted text to ASCII formatted text
  
@@ -686,6 +719,40 @@
 ]]></programlisting></para>
 </sect2>
 
+<sect2 id="_pick_line"><title>pick_line</title>
+<para><programlisting><![CDATA[  pick_line : pick a line from a figure;
+ 
+ 
+  Based on doc(ginput);
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_progress_txt"><title>progress_txt</title>
+<para><programlisting><![CDATA[  progress_txt : console based progress bar
+ 
+  Ex1 : 
+    for i=1:10000;
+      progress_txt(i,10000,'Ciao');
+    end
+ 
+  Ex1 :
+ 
+    for i=1:10;
+    for j=1:10;
+    for k=1:10;
+      progress_txt([i j k],[10 100 1000],'i','j','k');
+    end
+    end
+    end
+ 
+  TMH/2005, thomas@cultpenguin.com
+ 
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_read_gse_int"><title>read_gse_int</title>
+<para><programlisting><![CDATA[]]></programlisting></para>
+</sect2>
 
 <sect2 id="_sac2mat"><title>sac2mat</title>
 <para><programlisting><![CDATA[  [SACdata,SeisData,filenames] = SAC2MAT('file1','file2',..., 'filen',endian )
@@ -876,6 +943,5 @@
  
 ]]></programlisting></para>
 </sect2>
-
 
 </sect1>
