@@ -1,4 +1,4 @@
-1.4  : April 05, 2010
+1.4  : April 05, 2011
        ReadSegg.m : Corrected SH.time to reflect proper traveltime
                      Disabled Waitbar
        ReadSegyHeader.m : Fixed 'SkipData' conflict with Robust Control Toolbox
@@ -8,12 +8,12 @@
        ReadSu : Fixed typo in line 221
        MergeSegy.m : Added mfile to merge Segy Files
 
-1.3  : January 20, 2009
+1.3  : January 20, 2010
        Added 'ReadSegyTraceHeaderValue' and 'WriteSegyTraceHeaderValue'
        that can be used to read and write the TraceHeaderValues one by
        one. Much faster that reading the whole dataset.
 
-1.2  : January 07, 2008
+1.2  : January 07, 2009
        Updated GUI to work for Matlab R2008a
        enabled loading of partial segyfile (using time and header ranges)
        from GUI (ctrl X)
