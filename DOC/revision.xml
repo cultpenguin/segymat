@@ -3,26 +3,21 @@
 
 <revision>
 <revnumber>1.4</revnumber>
-<date>April 05, 2010</date>
+<date>April 05, 2011</date>
 <revremark>
-       ReadSegy.m : Corrected SH.time to reflect proper traveltime
-                     Disabled Waitbar
+ReadSegyHeader.m : Fixed 'SkipData' conflict with Robust Control Toolbox. Disabled Waitbar.
 
-       ReadSegyHeader.m : Fixed 'SkipData' conflict with Robust Control Toolbox
+wiggle.m : Allowed specification of line color. Allow overlaying wiggle plots. Allow NaN value in 'VA' style plotting.
 
-       wiggle.m : Allowed specification of line color, 
-                  allow overlaying wiggle plots
-	          allow NaN value in 'VA' style plotting
+ReadSu : Fixed typo in line 221.
 
-       ReadSu : Fixed typo in line 221
-
-       MergeSegy.m : Added mfile to merge Segy Files
+MergeSegy.m : Added mfile to merge Segy Files.
 </revremark>
 </revision>
 
 <revision>
 <revnumber>1.3</revnumber>
-<date>January 20, 2009</date>
+<date>January 20, 2010</date>
 <revremark>
 Added 'ReadSegyTraceHeaderValue' and 'WriteSegyTraceHeaderValue' that can be used to read and write the TraceHeaderValues one by one. Much faster that reading the whole dataset. 
 </revremark>
@@ -31,7 +26,7 @@ Added 'ReadSegyTraceHeaderValue' and 'WriteSegyTraceHeaderValue' that can be use
 
 <revision>
 <revnumber>1.2</revnumber>
-<date>January 7, 2008</date>
+<date>January 7, 2009</date>
 <revremark>
 Updated GUI to work for Matlab R2008a. 
 Enabled loading of partial segyfile (using time and header ranges) from GUI (ctrl X).
