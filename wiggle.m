@@ -212,7 +212,7 @@ if (showmax>0)
 
 end
 hold off;
-set(gca,'Ydir','revers')
+set(gca,'Ydir','reverse')
 
 if is_hold_on==1
     return;
