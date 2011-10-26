@@ -5,6 +5,8 @@
 %
 % To read time slice 0.5<t<5 :
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trange',.5,3);
+% To read time trace number 100,110 and 150 :
+% [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'traces',[100 110 150]);
 % Skip every 5th trace :
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'jump',5);
 % Read data in a CDP header range : 5000<cdp<5800 :
@@ -145,6 +147,14 @@ while (cargin<ninput)
         eval(['jump=',num2str(varargin{cargin}),';']);
         SegymatVerbose(['JUMP : Read only every ',num2str(jump),'th trace'])
     end
+    
+    if strcmp(varargin{cargin},'traces')
+        cargin=cargin+1;
+        traces=varargin{cargin};
+        SegymatVerbose(['TRACES : Read only every ',num2str(jump),'th trace'])      
+    else
+        traces=[];
+    end
 
     if strcmp(varargin{cargin},'minmax')
         cargin=cargin+1;
@@ -213,7 +223,6 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % OPEN FILE HANDLE
-
 if exist('endian')==1,
     SegymatVerbose([mfilename,' : ENDIAN : ',endian],1)
     segyid = fopen(filename,'r',endian);
@@ -287,6 +296,12 @@ SegyHeader.FixedLengthTraceFlag=1;
 
 
 SegymatVerbose([mfilename,' : Reading Data'],90);
+
+if ~isempty(traces)
+    [Data,SegyTraceHeaders,SegyHeader]=ReadSegyTrace(filename,traces,SegyHeader);
+    HeaderInfo=[];
+    return;
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

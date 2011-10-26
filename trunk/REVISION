@@ -1,5 +1,5 @@
 1.4  : April 05, 2011
-       ReadSegg.m : Corrected SH.time to reflect proper traveltime
+       ReadSegy.m : Corrected SH.time to reflect proper traveltime
                      Disabled Waitbar
        ReadSegyHeader.m : Fixed 'SkipData' conflict with Robust Control Toolbox
        wiggle.m : Allowed specification of line color, 
