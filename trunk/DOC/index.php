@@ -1,6 +1,6 @@
 pd<?
   require_once('magpierss/rss_fetch.inc');
-  $release="1.3";
+  $release="1.4";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
@@ -19,7 +19,7 @@ SegyMAT : Read and Write SEG-Y files using <A HREF="http://www.mathworks.com/">M
 
 <H5>
 
-M-files to read and write SEG-Y files from Matlab, implemented using the syntax of the SEG-Y format : SEG-Y revision 0 (1975) and revision 1 (May 2002) [<A HREF="http://www.seg.org/SEGportalWEBproject/prod/SEG-Publications/Pub-Technical-Standards/Documents/seg_y_rev1.pdf">pdf</A>,<A HREF="http://www.seg.org/SEGportalWEBproject/prod/SEG-Publications/Pub-Technical-Standards/Documents/seg_y_rev1.doc">doc</A>].
+M-files to read and write SEG-Y files from Matlab, implemented using the syntax of the SEG-Y format : SEG-Y revision 0 (1975) and revision 1 (May 2002) [<A HREF="http://www.seg.org/documents/10161/77915/seg_y_rev1.pdf">pdf</A>].
 </H5>
 
 <CENTER>This site is hosted by<BR>

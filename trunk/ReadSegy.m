@@ -11,7 +11,7 @@
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'jump',5);
 % Read data in a CDP header range : 5000<cdp<5800 :
 % (change cdp to any other valid TraceHeader value)
-% [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp'5000,5800);
+% [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp',5000,5800);
 % Read only the header values (Data will return empty)
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'SkipData',1);
 %
@@ -138,6 +138,7 @@ end
 
 
 % TRANSFORM VARARGING INTO PARAMETERS
+traces=[];
 cargin=1;
 while (cargin<ninput)
     SegymatVerbose([mfilename,' - Converting varargin, ',num2str(cargin)],90)
@@ -152,8 +153,6 @@ while (cargin<ninput)
         cargin=cargin+1;
         traces=varargin{cargin};
         SegymatVerbose(['TRACES : Read only every ',num2str(jump),'th trace'])      
-    else
-        traces=[];
     end
 
     if strcmp(varargin{cargin},'minmax')
@@ -164,6 +163,17 @@ while (cargin<ninput)
         cargin=cargin+1;
         eval(['headermax=',num2str(varargin{cargin}),';']);
         SegymatVerbose(['MIN MAX : Using header ',header,' from ',num2str(headermin),' to ',num2str(headermax)])
+        
+        h=ReadSegyTraceHeaderValue(filename,'key',header);
+        minmax_traces=find(h>=headermin & h<=headermax);
+        
+        
+        if isempty(traces)
+            traces=minmax_traces;
+        else
+            traces=intersect(traces,minmax_traces);
+        end
+        
     end
 
     if strcmp(varargin{cargin},'trange')
@@ -297,11 +307,12 @@ SegyHeader.FixedLengthTraceFlag=1;
 
 SegymatVerbose([mfilename,' : Reading Data'],90);
 
-if ~isempty(traces)
-    [Data,SegyTraceHeaders,SegyHeader]=ReadSegyTrace(filename,traces,SegyHeader);
-    HeaderInfo=[];
-    return;
-end
+% MAKE USE OF ReadSegyTrace to quickly read specific traces
+%if ~isempty(traces)
+%    [Data,SegyTraceHeaders,SegyHeader]=ReadSegyTrace(filename,traces,SegyHeader);
+%    HeaderInfo=[];
+%    return;
+%end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -357,10 +368,21 @@ pos0=ftell(segyid);
 
 while (~(ftell(segyid)>=DataEnd))
    
-    traceinfile=traceinfile+1;
-
     usetrace=1; % DEFAULT USING TRACE WHEN [1].
 
+    traceinfile=traceinfile+1;
+
+    if ~isempty(traces);
+        if (traceinfile>length(traces))
+            break
+        else
+            traceskip=240+(BPS/8)*SegyHeader.ns;
+            skip=DataStart+(traces(traceinfile)-1)*traceskip;
+            fseek(segyid,skip,'bof');
+        end
+    end
+    
+    
     ishow=10000;
     itime=1/(24*3600)*2; % Min time between verbose info to screen  
     if (((traceinfile/ishow)==round(traceinfile/ishow))&((now-tlast)>itime)),
@@ -418,12 +440,13 @@ while (~(ftell(segyid)>=DataEnd))
     if usetrace==1,
         %% IF TIME RANGE IS SPECIFIED, THEN EXTRACT THIS
         if (existTmin==1)&(existTmax==1)
-            % NEXT LINE SHOULD CONSIDER THAT ns in Trace and Segy Header could vary !!!
+            % NEXT LINE SHOULD CONSIDER THAT ns in Trace and Segy Header
+            % could vary !!!
             origtrange=[1:1:SegyHeader.ns].*SegyHeader.dt.*1e-6+SingleSegyTraceHeaders.DelayRecordingTime.*1e-3;
             gooddata=find(origtrange>tmin & origtrange<tmax);
             SingleSegyData.data=SingleSegyData.data(gooddata);
             % CHECK NEXT LINE TAHT DelatRec... is in micro seconds
-            SingleSegyTraceHeaders.DelayRecordingTime=tmin;
+            SingleSegyTraceHeaders.DelayRecordingTime=tmin.*1e+3;
             SingleSegyTraceHeaders.ns=length(gooddata);
             ns=length(gooddata); %  for use below
         end

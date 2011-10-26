@@ -67,7 +67,7 @@ while (cargin<ninput)
            hval=[];
            return
        end
-       disp(sprintf('key=%s, startpos=%d, precision=%s ',key,pos+1,precision))
+       SegymatVerbose(sprintf('key=%s, startpos=%d, precision=%s ',key,pos+1,precision))
     end    
     
     cargin=cargin+1;
