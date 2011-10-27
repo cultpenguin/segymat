@@ -1,3 +1,12 @@
+1.5  : October 27, 2011
+       ReadSegy.m : Added option 'traces' that allow fast reading of specific 
+	traces. 
+	When the 'minmax' option is used, the corresponding traces
+	are first located thorugh header files, and then data
+	are read using the 'traces' options.
+	For larger files this casues the readomh tme to decrease
+	significantly when using the 'minmax' option. 
+
 1.4  : April 05, 2011
        ReadSegy.m : Corrected SH.time to reflect proper traveltime
                      Disabled Waitbar

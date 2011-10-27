@@ -4,7 +4,7 @@
 %
 
 %
-% (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
+% (C) 2001-2011, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 % 
 %    This program is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by

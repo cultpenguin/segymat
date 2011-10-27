@@ -4,7 +4,7 @@
 %
 
 %
-% (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
+% (C) 2001-2011, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 % 
 %    This program is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
 %    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 function [ver,d]=SegymatVersion;
-  version='1.3';
-  releasedate='January 20, 2010';
+  version='1.5';
+  releasedate='October 27, 2011';
   
   SegymatVerbose(['This is SegyMAT version ',version,' - released ',releasedate],-1)    
   ver=version;
