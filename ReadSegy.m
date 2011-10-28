@@ -339,11 +339,9 @@ existHeader=~isempty(header);
 existTmin=~isempty(tmin);
 existTmax=~isempty(tmax);
 
-if existJump==1,
-    out_ntraces=ceil(ntraces/jump);
-else
-    out_ntraces=ntraces;
-end
+out_ntraces=ntraces;
+if existJump==1, out_ntraces=ceil(ntraces/jump);end
+if ~isempty(traces), out_ntraces=length(traces);end
 
 
 
