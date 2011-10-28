@@ -21,8 +21,8 @@
 %    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 function [ver,d]=SegymatVersion;
-  version='1.5';
-  releasedate='October 27, 2011';
+  version='1.5.1';
+  releasedate='October 28, 2011';
   
   SegymatVerbose(['This is SegyMAT version ',version,' - released ',releasedate],-1)    
   ver=version;
