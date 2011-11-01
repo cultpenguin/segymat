@@ -62,7 +62,7 @@ foreach ( $rss->items as $item ) {
 <!-- -------------------------------------------------------------------------------------- -->
 <DIV CLASS="title">Documentation</DIV>
 <P>
-SegyMAT user guide : [<A HREF="https://sourceforge.net/projects/segymat/files/SegyMAT/1.4/segymat-1.4.pdf/download">PDF</A>] [<A HREF="doc/index.html">HTML</A>]
+SegyMAT user guide : [<A HREF="http://segymat.sourceforge.net/segymat-1.5.pdf">PDF</A>] [<A HREF="doc/index.html">HTML</A>]
 
 
 <!-- -------------------------------------------------------------------------------------- -->
