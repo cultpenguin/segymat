@@ -1,6 +1,6 @@
-pd<?
+<?
   require_once('magpierss/rss_fetch.inc');
-  $release="1.4";
+  $release="1.5";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
@@ -51,6 +51,7 @@ foreach ( $rss->items as $item ) {
 		$href = $item['link'];
 		$title = $item['title'];
 		$href="http://sourceforge.net/project/showfiles.php?group_id=39015";
+		$href="http://sourceforge.net/projects/segymat/files/SegyMAT/";
 		echo "<li><a href=$href>Download latest release</a></li>";
 	break;
 }
