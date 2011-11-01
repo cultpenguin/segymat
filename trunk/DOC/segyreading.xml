@@ -31,8 +31,42 @@
   >ReadSegy</filename>, controlling which part of the data set to read, and the format.</para>
   
 
+<!--
   <sect3>
-    <title>To read time slice 0.5  t  5</title> 
+    <title>Read specific trace numbers</title> 
+    To read only traces 100:1:100m, and 200:2:300 use
+    <screen>
+      &gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'traces',[101:200,250:2:300]);
+    </screen>
+  </sect3>
+-->
+  
+  <sect3>
+    <title>Read specific trace numbers</title> 
+    <para>To read traces 100, 201 and 320 use e.g.</para>
+    <screen>
+&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'traces',[100 201 320]);
+    </screen>
+    <para>Use for example <xref linkend="ReadSegyTraceHeaderValue"/> and 'find' to find a list of trace ids (this is equivalent to using the 'minmax' option)</para>
+    <screen>
+&gt;&gt; cdp=ReadSegyTraceHeaderValue(filename,'key','cdp');
+&gt;&gt; traces = find(cdp&gt;100 &amp; cdp&lt;200)
+&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'traces',[100 201 320]);
+    </screen>
+  </sect3>
+
+
+  
+  <sect3>
+    <title>Read only every 5th trace</title> 
+    <screen>
+      &gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+      ReadSegy(filename,'jump',5);
+    </screen>
+  </sect3>
+
+  <sect3>
+    <title>To read time slice 0.5  &lt; t &lt; 5</title> 
     <screen>
       &gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trange',.5,3);
     </screen>
@@ -53,8 +87,8 @@
 <para
 ><varname
 >cdp</varname> can be changed to any other valid header name</para>
-<screen
->&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
+<screen>
+&gt;&gt; [Data,SegyTraceHeaders,SegyHeader]=
       ReadSegy(filename,'minmax','cdp'5000,5800);</screen></sect3>
 
 <sect3

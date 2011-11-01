@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="/usr/share/xml/docbook/stylesheet/ldp/html/tldp-sections.xsl"/>
+
+
 <xsl:template name="user.footer.content">
   <HR/><TABLE WIDTH="100%"><TR>
   <TD class="copyright">&#x00A9; 2004-2011 Thomas Mejer Hansen.</TD>

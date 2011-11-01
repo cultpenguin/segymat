@@ -2,6 +2,21 @@
 <revhistory>
 
 <revision>
+<revnumber>1.5</revnumber>
+<date>October 28, 2011</date>
+<revremark>
+       ReadSegy.m : Added option 'traces' that allow fast reading of specific 
+	traces. 
+	When the 'minmax' option is used, the corresponding traces
+	are first located thorugh header files, and then data
+	are read using the 'traces' options.
+	For larger files this casues the readomh tme to decrease
+	significantly when using the 'minmax' option. 
+</revremark>
+</revision>
+
+
+<revision>
 <revnumber>1.4</revnumber>
 <date>April 05, 2011</date>
 <revremark>
