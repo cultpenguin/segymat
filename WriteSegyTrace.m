@@ -61,7 +61,6 @@ fseek(segyid,(traces-1)*skip,'cof');
 
 TraceStart=ftell(segyid);
 
-disp('write')
 PutSegyTrace(segyid,Data,SegyTraceHeader,SegyHeader);
 
 %STH=GetSegyTraceHeader(segyid,TraceStart,Format,SegyHeader.ns,[]);
