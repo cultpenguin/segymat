@@ -43,7 +43,7 @@
 % imagesc([SegyTraceHeaders.cdp],SegyHeader.time,Data);
 % wiggle([SegyTraceHeaders.TraceNumber],SegyHeader.time,Data);
 %
-% (C) 2003-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk
+% (C) 2003-2004, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 %
 
 % Implemented using the syntax of the SEG-Y revised format :
@@ -381,10 +381,10 @@ while (~(ftell(segyid)>=DataEnd))
     end
     
     
-    ishow=10000;
-    itime=1/(24*3600)*2; % Min time between verbose info to screen  
-    if (((traceinfile/ishow)==round(traceinfile/ishow))&((now-tlast)>itime)),
-
+    ishow=1000;
+    itime=2; % Min time between verbose info to screen   in seconds
+    t_since_last=(now-tlast)*24*3600; % Time in seconds since last screen update
+    if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),
         
         tnow=now;
         tlast=tnow;
@@ -393,7 +393,7 @@ while (~(ftell(segyid)>=DataEnd))
         tleft=(tend-tnow)*3600*24;
         txt=sprintf('Reading trace %d/%d, (%5.0fs left) (est end %s)',traceinfile,ntraces,tleft,datestr(tend));
         toc_old=toc;
-        SegymatVerbose(txt)
+        SegymatVerbose(txt,-1)
     end
     TraceStart=ftell(segyid);
 

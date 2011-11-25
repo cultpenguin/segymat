@@ -1,5 +1,4 @@
-% PutSegyTrace(segyid,tracedata,SegyTraceHeader,TraceStart);
-%  
+% PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader)
 % Write a SegyTrace to a filehandle 'segyid'
 %
 % (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
@@ -147,14 +146,12 @@ function PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader);
   fseek(segyid,0,'cof'); fseek(segyid,240-216,'cof');
   % fseek(segyid,0,'bof'); fseek(segyid,TraceStart+240,'bof');
   
-  
   Revision=SegyHeader.SegyFormatRevisionNumber;
   if Revision>0, Revision=1; end
   Format=SegyHeader.Rev(Revision+1).DataSampleFormat(SegyHeader.DataSampleFormat).format;  
   BPS=SegyHeader.Rev(Revision+1).DataSampleFormat(SegyHeader.DataSampleFormat).bps; 
   
   SegymatVerbose([mfilename,' SegyRevision ',sprintf('%0.4g',Revision),', ',Format],3);
-  
   %% WRITE TRACE DATA;
   if (strcmp(Format,'uint32')==1)|(strcmp(Format,'uint16')==1), % IBM FLOATING POINT
                                                                 % CONVERT FROM FLOATING POINT
