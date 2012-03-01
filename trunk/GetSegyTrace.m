@@ -34,4 +34,4 @@ if exist('SegyTraceHeader')
 end
 
 [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart);
-%[SegyTraceData]=GetSegyDataTraceHeader(segyid,TraceStart,DataFormat,ns);
+[SegyTraceData]=GetSegyTraceData(segyid,TraceStart,DataFormat,ns);
