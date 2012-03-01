@@ -63,27 +63,35 @@
   (C) 2001-2004 Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
  
 
-    Overloaded functions or methods (ones with the same name in other directories)
-       help H5T/Contents.m
-       help H5D/Contents.m
-       help H5P/Contents.m
-       help H5R/Contents.m
-       help H5F/Contents.m
-       help H5E/Contents.m
-       help H5A/Contents.m
-       help H5S/Contents.m
-       help H5I/Contents.m
-       help H5G/Contents.m
-       help H5ML/Contents.m
-       help H5/Contents.m
-       help H5Z/Contents.m
-       help timer/Contents.m
-       help icinterface/Contents.m
-       help instrument/Contents.m
-       help serial/Contents.m
-       help audiorecorder/Contents.m
-       help audioplayer/Contents.m
-       help strel/Contents.m
+    Overloaded methods:
+       serial/Contents
+       mmreader/Contents
+       VideoReader/Contents
+       instrument/Contents
+       dioline/Contents
+       digitalio/Contents
+       daqdevice/Contents
+       daqchild/Contents
+       aochannel/Contents
+       analogoutput/Contents
+       analoginput/Contents
+       aichannel/Contents
+       rsmd/Contents
+       resultset/Contents
+       drivermanager/Contents
+       driver/Contents
+       dmd/Contents
+       dbtbx/Contents
+       database/Contents
+       cursor/Contents
+       videosource/Contents
+       videoinput/Contents
+       imaqdevice/Contents
+       imaqchild/Contents
+       rfmodel.Contents
+       rfdata.Contents
+       rfckt.Contents
+       rfchart.Contents
 ]]></programlisting></para>
 </sect2>
 
@@ -139,7 +147,7 @@
   
   Call : 
  
-    tracedata=GetSegyTraceData(segyid,ns,SegyHeader,SkipData
+    tracedata=GetSegyTraceData(segyid,ns,SegyHeader)
  
 ]]></programlisting></para>
 </sect2>
@@ -147,14 +155,16 @@
 <sect2 id="_GetSegyTraceHeader"><title>GetSegyTraceHeader</title>
 <para><programlisting><![CDATA[  GetSegyTraceHeader : Reads a seg y trace, data and header
  
-  [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,DataFormat,ns);
+  [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart);
  
  
-  (C) 2001-2004 Thomas Mejer Hansen, thomas.mejer.hansen@cultpenguin.com
-  
+  (C) 2001-2012 Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
+ 
   Revisions:
-  07/2008 Kristian Stormark (<kristian.stormark@gmail.com>) : Reduce the 
-          number of discoperations causing a significant speed up 
+  07/2008 Kristian Stormark (<kristian.stormark@gmail.com>) : Reduce the
+          number of disc operations causing a significant speed up
+ 
+  03/2012 Cleaned up after suggestion from Kristian Stormark
  
 ]]></programlisting></para>
 </sect2>
@@ -227,8 +237,7 @@
 </sect2>
 
 <sect2 id="_PutSegyTrace"><title>PutSegyTrace</title>
-<para><programlisting><![CDATA[  PutSegyTrace(segyid,tracedata,SegyTraceHeader,TraceStart);
-   
+<para><programlisting><![CDATA[  PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader)
   Write a SegyTrace to a filehandle 'segyid'
  
   (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
@@ -244,11 +253,13 @@
  
   To read time slice 0.5<t<5 :
   [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trange',.5,3);
+  To read time trace number 100,110 and 150 :
+  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'traces',[100 110 150]);
   Skip every 5th trace :
   [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'jump',5);
   Read data in a CDP header range : 5000<cdp<5800 :
   (change cdp to any other valid TraceHeader value)
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp'5000,5800);
+  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp',5000,5800);
   Read only the header values (Data will return empty)
   [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'SkipData',1);
  
@@ -280,64 +291,20 @@
   imagesc([SegyTraceHeaders.cdp],SegyHeader.time,Data);
   wiggle([SegyTraceHeaders.TraceNumber],SegyHeader.time,Data);
  
-  (C) 2003-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk
+  (C) 2003-2012, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
  
 ]]></programlisting></para>
 </sect2>
 
 <sect2 id="_ReadSegyConstantTraceLength"><title>ReadSegyConstantTraceLength</title>
-<para><programlisting><![CDATA[  ReadSegyConstantTraceLength : Reads a SEG Y rev 0/1 formatted file
-                                Assumes CONSTANT TRACE LENGTH
-                                which allows much faster code
+<para><programlisting><![CDATA[  ReadSegy : Reads a SEG Y rev 1 formatted file, and forces Constant Trcae Length
  
   Call :
   [Data,SegyTraceHeaders,SegyHeader]=ReadSegyConstantTraceLength(filename);
  
-  To read time slice 0.5<t<5 :
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trange',.5,3);
-  Skip every 5th trace :
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'jump',5);
-  Read data in a CDP header range : 5000<cdp<5800 :
-  (change cdp to any other valid TraceHeader value)
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp',5000,5800);
-  Use several minmax entries
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'minmax','cdp',5000,5800,'minmax','SourceX',10,20);
+  See ReadSegy for optional arguments
  
- 
-  Read from trace 13-18:
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trace',13:18);
-  Read from trace 13-18 and 100-130:
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trace',[13:18,100:130]);
- 
-  SEG-Y format revision number can be '0' (1975) or 
-  '100' (similar to '1') (2002).
-  By default the SEG-Y format revision number is read in the 
-  binary header, but this can be overruled using :
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'revision',0);
- 
-  Read using a specific Data Sample Format :
-  Rev 0, IBM FLOATING POINT
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'revision',0,'dsf',1);
-  Rev 1, IEEE FLOATING POINT
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'revision',1,'dsf',5);
- 
-  A SegyHeader can be forced on the SEG-Y file using :
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'SegyHeader',SegyHeader);
-  The SegyHeader can be obtain by GetSegyHeader(segyfilename), and
-  then edited.
- 
-  To read using little endian :
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'endian','l');
- 
-  Combine any combination of the above
-  [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'jump',1,'minmax','cdp',5300,5400);
- 
- 
-  Plot the data using e.g. 
-  imagesc([SegyTraceHeaders.cdp],SegyHeader.time,Data);
-  wiggle([SegyTraceHeaders.TraceNumber],SegyHeader.time,Data);
- 
-  (C) 2003-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk
+  See also : ReadSegy
  
 ]]></programlisting></para>
 </sect2>
@@ -367,6 +334,11 @@
  
   To read using little endian :
   [SegyHeader]=ReadSegyHeader(filename,'endian','l');
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_ReadSegyTrace"><title>ReadSegyTrace</title>
+<para><programlisting><![CDATA[  ReadSegyTrace
 ]]></programlisting></para>
 </sect2>
 
@@ -596,6 +568,24 @@
   WriteSegyStructure('datacube.segy',SegyHeader,SegyTraceHeaders,Data,'revision',1,'dsf',5);
  
   See the dokumentation for for proper values of 'dsf'
+ 
+ 
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_WriteSegyTrace"><title>WriteSegyTrace</title>
+<para><programlisting><![CDATA[  WriteSegyTrace
+ 
+  Call : 
+    [Data,SegyTraceHeader,SegyHeader]=WriteSegyTrace(filename,traces,Data,SegyTraceHeader,SegyHeader);  
+ 
+ 
+    Example : 
+    %% EXAMPLE : Change polarity of trace 10 and 12
+    itrace=[10,12];
+    [D,STH,SegyHeader]=ReadSegy(filename,'traces',itrace);
+    WriteSegyTrace(filename_copy,itrace,D,STH,SegyHeader)
+ 
  
  
 ]]></programlisting></para>
@@ -902,6 +892,11 @@
  
   (C) 2004
  
+]]></programlisting></para>
+</sect2>
+
+<sect2 id="_segymat_release_test"><title>segymat_release_test</title>
+<para><programlisting><![CDATA[ 
 ]]></programlisting></para>
 </sect2>
 
