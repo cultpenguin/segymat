@@ -409,10 +409,10 @@ while (~(ftell(segyid)>=DataEnd))
         SegymatVerbose([num2str(traceinfile),' - SKIPPING TRACE ... ',num2str(outtrace)],2)
     elseif (SegyHeader.FixedLengthTraceFlag==0)
         SegymatVerbose(sprintf('Using Fixed Length Trace as SegyHeader.FixedLengthTraceFlag=0',traceinfile),10);
-        SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,Format,SegyHeader.ns,[]);
+        SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
         SingleSegyData.data=GetSegyTraceData(segyid,SingleSegyTraceHeaders.ns,SegyHeader);
     else
-        SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,Format,SegyHeader.ns,[]);
+        SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
         SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader);
 
         if SingleSegyTraceHeaders.TraceNumber<1
