@@ -43,7 +43,7 @@
 % imagesc([SegyTraceHeaders.cdp],SegyHeader.time,Data);
 % wiggle([SegyTraceHeaders.TraceNumber],SegyHeader.time,Data);
 %
-% (C) 2003-2004, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
+% (C) 2003-2012, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 %
 
 % Implemented using the syntax of the SEG-Y revised format :
@@ -55,7 +55,7 @@
 % that sort of information, as well as a description of the segy file
 %
 %
-% (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
+% (C) 2001-2012, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
 %
 %    This program is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
