@@ -2,7 +2,7 @@
 % 
 % Call : 
 %
-%   tracedata=GetSegyTraceData(segyid,ns,SegyHeader,SkipData
+%   tracedata=GetSegyTraceData(segyid,ns,SegyHeader)
 %
 
 %

@@ -1,6 +1,7 @@
 BODY
 {
         font-family: verdana;
+		font-size: 14pt;
 	padding: 50px;
 }
 
@@ -158,21 +159,13 @@ DIV.VARIABLELIST {
  * They are really too complicated to explain here in all depth. ;-)
 */
 
-P {
-        font-size: 12px;
-}
 
 /*/*/A{}
 BODY P {
-        font-size: x-small;
         voice-family: "\"}\"";
         voice-family: inherit;
-        font-size: small;
 }
 
-HTML>BODY P {
-        font-size: small;
-}
 /* */
 
 /* Add an external-link icon to absolute links */

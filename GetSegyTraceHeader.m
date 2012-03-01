@@ -1,19 +1,21 @@
 % GetSegyTraceHeader : Reads a seg y trace, data and header
 %
-% [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,DataFormat,ns);
+% [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart);
 %
 %
-% (C) 2001-2004 Thomas Mejer Hansen, thomas.mejer.hansen@cultpenguin.com
-% 
+% (C) 2001-2012 Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
+%
 % Revisions:
-% 07/2008 Kristian Stormark (<kristian.stormark@gmail.com>) : Reduce the 
-%         number of discoperations causing a significant speed up 
+% 07/2008 Kristian Stormark (<kristian.stormark@gmail.com>) : Reduce the
+%         number of disc operations causing a significant speed up
+%
+% 03/2012 Cleaned up after suggestion from Kristian Stormark
 %
 
 %    This program is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
 %    the Free Software Foundation; either version 2 of the License, or
-%    (at your option) any later version.
+%    (at your option) any later version.G
 %
 %    This program is distributed in the hope that it will be useful,
 %    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,26 +27,23 @@
 %    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 %
 
-function [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,DataFormat,ns,SegyTraceHeader);
+function [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,SegyTraceHeader);
 
-if exist('DataFormat')==0, DataFormat='float32'; end
 if exist('TraceStart')==0, TraceStart=ftell(segyid); end
 
-if exist('SegyTraceHeader')
-    if isempty('SegyTraceHeader');
-        clear SegyTraceHeader;
-    end
+% get current position in file
+cur_pos=ftell(segyid);
+
+if cur_pos~=TraceStart
+    fseek(segyid,TraceStart,'bof');
 end
-
-
-fseek(segyid,TraceStart,'bof');
 
 % GET POSITION FOR EASY LATER LOCALIZATION
 SegyTraceHeader.SegyMAT_TraceStart = ftell(segyid);
 
 chunk = fread(segyid,7,'int32');
 SegyTraceHeader.TraceSequenceLine = chunk(1);    % 0
-SegyTraceHeader.TraceSequenceFile = chunk(2);    % 4 
+SegyTraceHeader.TraceSequenceFile = chunk(2);    % 4
 SegyTraceHeader.FieldRecord       = chunk(3);    % 8
 SegyTraceHeader.TraceNumber       = chunk(4);    % 12
 SegyTraceHeader.EnergySourcePoint = chunk(5);    % 16
@@ -67,9 +66,10 @@ SegyTraceHeader.SourceDatumElevation    = chunk(6);  %56
 SegyTraceHeader.SourceWaterDepth        = chunk(7);  %60
 SegyTraceHeader.GroupWaterDepth         = chunk(8);  %64
 
-
+% ElevationScalar to applied to %40 - %64
 chunk = fread(segyid,2,'int16');
 SegyTraceHeader.ElevationScalar   = chunk(1);  %68
+
 % Multiply/divide next number for following 4 values
 SegyTraceHeader.SourceGroupScalar = chunk(2);  %70
 
@@ -125,12 +125,12 @@ SegyTraceHeader.MinuteOfHour				= chunk(23);  %162
 SegyTraceHeader.SecondOfMinute				= chunk(24);  %164
 SegyTraceHeader.TimeBaseCode				= chunk(25);  %166
 
-
-if SegyTraceHeader.TimeBaseCode==1, SegyTraceHeader.TimeBaseCodeText='Local'; 
-elseif SegyTraceHeader.TimeBaseCode==2, SegyTraceHeader.TimeBaseCodeText='GMT';
-elseif SegyTraceHeader.TimeBaseCode==3, SegyTraceHeader.TimeBaseCodeText='Other';
-elseif SegyTraceHeader.TimeBaseCode==4, SegyTraceHeader.TimeBaseCodeText='UTC';
-else SegyTraceHeader.TimeBaseCodeText=''; end
+% NEX FEW LINES ARE NOT STRICTLY NEEDED
+% if SegyTraceHeader.TimeBaseCode==1, SegyTraceHeader.TimeBaseCodeText='Local';
+% elseif SegyTraceHeader.TimeBaseCode==2, SegyTraceHeader.TimeBaseCodeText='GMT';
+% elseif SegyTraceHeader.TimeBaseCode==3, SegyTraceHeader.TimeBaseCodeText='Other';
+% elseif SegyTraceHeader.TimeBaseCode==4, SegyTraceHeader.TimeBaseCodeText='UTC';
+% else SegyTraceHeader.TimeBaseCodeText=''; end
 
 
 SegyTraceHeader.TraceWeightningFactor					= chunk(26);  %168
@@ -150,18 +150,19 @@ SegyTraceHeader.ShotPoint	= chunk(5); %196
 SegyTraceHeader.ShotPointScalar=fread(segyid,1,'int16');  %200
 
 SegyTraceHeader.TraceValueMeasurementUnit=fread(segyid,1,'int16');  %202
-if SegyTraceHeader.TraceValueMeasurementUnit==-1, SegyTraceHeader.TraceValueMeasurementUnitText='Other';
-elseif SegyTraceHeader.TraceValueMeasurementUnit==0, SegyTraceHeader.TraceValueMeasurementUnitText='Unknown';
-elseif SegyTraceHeader.TraceValueMeasurementUnit==1, SegyTraceHeader.TraceValueMeasurementUnitText='Pascal (Pa)';
-elseif SegyTraceHeader.TraceValueMeasurementUnit==2, SegyTraceHeader.TraceValueMeasurementUnitText='Volts (v)';
-elseif SegyTraceHeader.TraceValueMeasurementUnit==3, SegyTraceHeader.TraceValueMeasurementUnitText='Millivolts (v)';
-elseif SegyTraceHeader.TraceValueMeasurementUnit==4, SegyTraceHeader.TraceValueMeasurementUnitText='Amperes (A)';  
-elseif SegyTraceHeader.TraceValueMeasurementUnit==5, SegyTraceHeader.TraceValueMeasurementUnitText='Meters (m)';  
-elseif SegyTraceHeader.TraceValueMeasurementUnit==6, SegyTraceHeader.TraceValueMeasurementUnitText='Meters Per Second (m/s)';  
-elseif SegyTraceHeader.TraceValueMeasurementUnit==7, SegyTraceHeader.TraceValueMeasurementUnitText='Meters Per Second squared (m/&s2)Other';  
-elseif SegyTraceHeader.TraceValueMeasurementUnit==8, SegyTraceHeader.TraceValueMeasurementUnitText='Newton (N)';  
-elseif SegyTraceHeader.TraceValueMeasurementUnit==8, SegyTraceHeader.TraceValueMeasurementUnitText='Watt (W)';  
-else SegyTraceHeader.TraceValueMeasurementUnitText='Undefined'; end
+% NEXT LINES ARE STRICTLY NOT NEEDED
+% if SegyTraceHeader.TraceValueMeasurementUnit==-1, SegyTraceHeader.TraceValueMeasurementUnitText='Other';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==0, SegyTraceHeader.TraceValueMeasurementUnitText='Unknown';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==1, SegyTraceHeader.TraceValueMeasurementUnitText='Pascal (Pa)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==2, SegyTraceHeader.TraceValueMeasurementUnitText='Volts (v)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==3, SegyTraceHeader.TraceValueMeasurementUnitText='Millivolts (v)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==4, SegyTraceHeader.TraceValueMeasurementUnitText='Amperes (A)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==5, SegyTraceHeader.TraceValueMeasurementUnitText='Meters (m)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==6, SegyTraceHeader.TraceValueMeasurementUnitText='Meters Per Second (m/s)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==7, SegyTraceHeader.TraceValueMeasurementUnitText='Meters Per Second squared (m/&s2)Other';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==8, SegyTraceHeader.TraceValueMeasurementUnitText='Newton (N)';
+% elseif SegyTraceHeader.TraceValueMeasurementUnit==8, SegyTraceHeader.TraceValueMeasurementUnitText='Watt (W)';
+% else SegyTraceHeader.TraceValueMeasurementUnitText='Undefined'; end
 
 SegyTraceHeader.TransductionConstantMantissa=fread(segyid,1,'int32');  %204
 
@@ -188,11 +189,10 @@ SegyTraceHeader.UnassignedInt2 = chunk(2);  %236
 
 
 if exist('ns')==0,
-  ns=SegyTraceHeader.ns;
+    ns=SegyTraceHeader.ns;
 end
 
 
-% GO TO POSITION OF DATA
-fseek(segyid,TraceStart+240,'bof');
+% remeber location
 SegyTraceHeader.SegyMAT_TraceDataStart = ftell(segyid);
 
