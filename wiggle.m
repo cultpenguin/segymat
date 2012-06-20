@@ -113,7 +113,11 @@ if nargin<9
 end
 
 if nargin<10
-    lineColor=[0 0 0];
+    if is_hold_on
+        lineColor=[1 0 0];
+    else
+        lineColor=[0 0 0];
+    end
 end
 
 
@@ -196,11 +200,10 @@ if (showmax>0)
         else
 
             % MATLAB PLOT
-            if ax_order==1;
-                
-                plot(xt+x(i),t,'-','linewidth',.05,'color',lineColor);
+            if ax_order==1;     
+                plot(xt+x(i),t,'-','linewidth',1.05,'color',lineColor);
             else
-                plot(t,xt+x(i),'-','linewidth',.05,'color',lineColor);
+                plot(t,xt+x(i),'-','linewidth',1.05,'color',lineColor);
             end
             %OCTAVE PLOT
             %plot(xt+x(i),t,'k-')
