@@ -96,6 +96,11 @@ else
     mfilename='ReadSegy';
 end
 
+if nargout<2
+    SkipSegyTraceHeaders=1;
+else
+    SkipSegyTraceHeaders=0;    
+end
 dsf=[];
 revision=[];
 endian_tight=[];
@@ -412,15 +417,25 @@ while (~(ftell(segyid)>=DataEnd))
         SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
         SingleSegyData.data=GetSegyTraceData(segyid,SingleSegyTraceHeaders.ns,SegyHeader);
     else
-        SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
+        if SkipSegyTraceHeaders==1
+            if exist('SingleSegyTraceHeaders','var');
+                fseek(segyid,240,'cof');
+            else
+                %% make sure we have read at least one trace header
+                SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);        
+            end
+        else
+            SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
+        end
         SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader);
 
+        try%%
         if SingleSegyTraceHeaders.TraceNumber<1
             SingleSegyTraceHeaders.TraceNumber=traceinfile;
             SegymatVerbose(sprintf('TraceNumber malformatetd. Setting TraceNumber=%d',traceinfile),10);
         end
-
-        SegymatVerbose(sprintf('ns=%d, Trace in line : %d, Trace in file : %d, ns=%10.5f dt=%10.5f',SingleSegyTraceHeaders.ns,SingleSegyTraceHeaders.TraceSequenceLine,SingleSegyTraceHeaders.TraceSequenceFile,SingleSegyTraceHeaders.ns,SingleSegyTraceHeaders.dt),10)
+        end%%
+        %SegymatVerbose(sprintf('ns=%d, Trace in line : %d, Trace in file : %d, ns=%10.5f dt=%10.5f',SingleSegyTraceHeaders.ns,SingleSegyTraceHeaders.TraceSequenceLine,SingleSegyTraceHeaders.TraceSequenceFile,SingleSegyTraceHeaders.ns,SingleSegyTraceHeaders.dt),10)
 
 
     end
@@ -456,7 +471,9 @@ while (~(ftell(segyid)>=DataEnd))
             ta1=now;
             SegymatVerbose(sprintf('Pre allocating RAM ntraces=%d out_traces=%d',ntraces,out_ntraces));
             SegyData=repmat(struct('data',zeros(ns,1)),1,out_ntraces);
-            SegyTraceHeaders=repmat(SingleSegyTraceHeaders,1,out_ntraces);           
+            if nargout>1
+                SegyTraceHeaders=repmat(SingleSegyTraceHeaders,1,out_ntraces);
+            end
             %whos SegyData SegyTraceHeaders
             %save T1
             ta2=now;
@@ -465,7 +482,9 @@ while (~(ftell(segyid)>=DataEnd))
 
         
         SegyData(outtrace).data=SingleSegyData.data;
-        SegyTraceHeaders(outtrace)=SingleSegyTraceHeaders;
+        if nargout>1
+            SegyTraceHeaders(outtrace)=SingleSegyTraceHeaders;
+        end
     
         
         if doWaitBar==1,
@@ -497,13 +516,17 @@ t=outtrace;
 
 % Write time to SegyHeader
 SegyHeader.ns=ns;
-SegyHeader.time=[1:1:SegyHeader.ns].*SegyHeader.dt./1e+6+SegyTraceHeaders(1).DelayRecordingTime./1e+3;
-
-% Make sure that only read SegyTraceHEaders are returned
-if outtrace~=out_ntraces
-    SegyTraceHeaders=SegyTraceHeaders(1:outtrace);
+if SkipSegyTraceHeaders==1;
+    SegyHeader.time=[1:1:SegyHeader.ns].*SegyHeader.dt./1e+6;
+else
+    SegyHeader.time=[1:1:SegyHeader.ns].*SegyHeader.dt./1e+6+SegyTraceHeaders(1).DelayRecordingTime./1e+3;
 end
-
+% Make sure that only read SegyTraceHEaders are returned
+if SkipSegyTraceHeaders==0;
+    if outtrace~=out_ntraces
+        SegyTraceHeaders=SegyTraceHeaders(1:outtrace);
+    end
+end
 % MOVE DATA from SegyData.data to a regular variable
 % THIS STEP COULD BE AVOIDED WHEN FixedTraceLength=1, which is almost
 % allways the case... Should speed up things and reduce memory reqs.
