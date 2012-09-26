@@ -161,6 +161,7 @@ while (cargin<ninput)
     end
 
     if strcmp(varargin{cargin},'minmax')
+        SkipSegyTraceHeaders=0;
         cargin=cargin+1;
         eval(['header=''',varargin{cargin},''';']);
         cargin=cargin+1;
