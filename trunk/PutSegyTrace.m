@@ -1,7 +1,7 @@
 % PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader)
 % Write a SegyTrace to a filehandle 'segyid'
 %
-% (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
+% (C) 2001-2012, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 % 
 
 %
@@ -21,25 +21,12 @@
 %
 function PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader);
 
-% *** DUE TO A BUG IN MATLAB 6.5 : Technical Solution Number: 31977
-  
-% Enable next line if error messages show that not all
-% trace header values have been set.
-% Enabling this check will considerably slow down writing 
-% with  factor of about 6!
-%  SegyTraceHeader=CheckSegyTraceHeader(SegyTraceHeader);
-  
-
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% WRITE SegyTraceHeader
     
   if ~exist('TraceStart')==1, TraceStart=ftell(segyid);end
   
-  fseek(segyid,0,'bof');fseek(segyid,TraceStart,'bof'); % ***
-  fwrite(segyid,ones(1,60),'int32');
-  fseek(segyid,0,'bof');fseek(segyid,TraceStart,'bof'); % ***
-
   WRITETRACEHEADER=1;
   if WRITETRACEHEADER==1,
     fseek(segyid,0,'bof');
@@ -137,15 +124,9 @@ function PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader);
                                                                    % WRITE UNASSIGNED CHARACTERS FOR THE REST
     fwrite(segyid,SegyTraceHeader.UnassignedInt1,'int32');  %232
     fwrite(segyid,SegyTraceHeader.UnassignedInt2,'int32');  %236
-                                                            %fwrite(segyid,zeros(1,4),'int16');  %230
+                                                            
   end
-  % 217-240 Unassigned
-  
-  % go to end of header 
-  % Any of the nex to lines should work, with the first line being the fastest  
-  fseek(segyid,0,'cof'); fseek(segyid,240-216,'cof');
-  % fseek(segyid,0,'bof'); fseek(segyid,TraceStart+240,'bof');
-  
+   
   Revision=SegyHeader.SegyFormatRevisionNumber;
   if Revision>0, Revision=1; end
   Format=SegyHeader.Rev(Revision+1).DataSampleFormat(SegyHeader.DataSampleFormat).format;  
