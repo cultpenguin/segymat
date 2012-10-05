@@ -87,7 +87,6 @@
 
 function [Data,SegyTraceHeaders,SegyHeader,HeaderInfo]=ReadSegy(filename,varargin);
 
-
 if isoctave
     doWaitBar=0; % [1] show progress bar gui
     mfilename='ReadSegy';
@@ -101,6 +100,7 @@ if nargout<2
 else
     SkipSegyTraceHeaders=0;    
 end
+
 dsf=[];
 revision=[];
 endian_tight=[];
@@ -115,10 +115,11 @@ endian='ieee-be'; % Big Endian is default
 SegymatVerbose([mfilename,' : reading ',filename])
 
 if ~(exist(filename)==2'),
-    SegymatVerbose([mfilename,' : ', filename,' does not exist !'])
+    SegymatVerbose([mfilename,' : ', filename,' does not exist !'],-1)
     Data=[];SegyTraceHeaders=[];SegyHeader=[];HeaderInfo=[];
     return
 end
+
 
 % IF ONLY 'filename', AND one outpuet HAS BEEN
 % SPECIFIED AS IN/OUTPUT, THEN USE THE FAST
@@ -140,6 +141,8 @@ else
     % DIRECT CALL
     ninput=length(varargin);
 end
+
+
 
 
 % TRANSFORM VARARGING INTO PARAMETERS
@@ -313,22 +316,12 @@ SegyHeader.FixedLengthTraceFlag=1;
 
 SegymatVerbose([mfilename,' : Reading Data'],90);
 
-% MAKE USE OF ReadSegyTrace to quickly read specific traces
-%if ~isempty(traces)
-%    [Data,SegyTraceHeaders,SegyHeader]=ReadSegyTrace(filename,traces,SegyHeader);
-%    HeaderInfo=[];
-%    return;
-%end
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% READ DATA
-%Segy=fread(segyid,4000,'float32');
-fseek(segyid,0,'eof'); DataEnd=ftell(segyid);
 fseek(segyid,0,'eof'); DataEnd=ftell(segyid);
 
 DataStart=3600+3200*SegyHeader.NumberOfExtTextualHeaders;
-fseek(segyid,DataStart,'bof');       % Go to the beginning of the file
 fseek(segyid,DataStart,'bof');       % Go to the beginning of the file
 
 
@@ -350,7 +343,6 @@ if existJump==1, out_ntraces=ceil(ntraces/jump);end
 if ~isempty(traces), out_ntraces=length(traces);end
 
 
-
 dwaitbar=10;
 if DataEnd./jump>1e+6, dwaitbar=10;  end
 if DataEnd./jump>1e+7, dwaitbar=50;  end
@@ -369,6 +361,8 @@ end
 t0=now;
 tlast=t0;
 pos0=ftell(segyid);
+
+
 
 while (~(ftell(segyid)>=DataEnd))
    
@@ -390,6 +384,7 @@ while (~(ftell(segyid)>=DataEnd))
     ishow=1000;
     itime=2; % Min time between verbose info to screen   in seconds
     t_since_last=(now-tlast)*24*3600; % Time in seconds since last screen update
+    %t_since_last=1;
     if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),
         
         tnow=now;
