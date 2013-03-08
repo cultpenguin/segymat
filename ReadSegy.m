@@ -3,6 +3,8 @@
 % Call :
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename);
 %
+% To read only sample number 123 (to get time slice):
+% [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'it',123);
 % To read time slice 0.5<t<5 :
 % [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,'trange',.5,3);
 % To read time trace number 100,110 and 150 :
@@ -205,6 +207,12 @@ while (cargin<ninput)
         end
     end
 
+    if strcmp(varargin{cargin},'it')
+        cargin=cargin+1;
+        eval(['it=',num2str(varargin{cargin}),';']);
+        SegymatVerbose(['it=',num2str(it)],-1)
+    end
+    
     if strcmp(varargin{cargin},'revision')
         cargin=cargin+1;
         eval(['revision=',num2str(varargin{cargin}),';']);
@@ -423,8 +431,12 @@ while (~(ftell(segyid)>=DataEnd))
         else
             SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
         end
-        SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader);
-
+        
+        if exist('it','var')
+            SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader,0,it);
+        else
+            SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader);
+        end
         try%%
         if SingleSegyTraceHeaders.TraceNumber<1
             SingleSegyTraceHeaders.TraceNumber=traceinfile;
