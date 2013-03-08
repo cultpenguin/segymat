@@ -29,7 +29,9 @@
 
 function [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,SegyTraceHeader);
 
-if exist('TraceStart')==0, TraceStart=ftell(segyid); end
+if nargin<1 
+    TraceStart=ftell(segyid); 
+end
 
 % get current position in file
 cur_pos=ftell(segyid);
@@ -188,9 +190,9 @@ SegyTraceHeader.UnassignedInt1 = chunk(1);  %232
 SegyTraceHeader.UnassignedInt2 = chunk(2);  %236
 
 
-if exist('ns')==0,
-    ns=SegyTraceHeader.ns;
-end
+%if exist('ns','var')==0,
+%    ns=SegyTraceHeader.ns;
+%end
 
 
 % remeber location
