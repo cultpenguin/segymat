@@ -22,7 +22,7 @@
 %    along with this program; if not, write to the Free Software
 %    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 %
-function tracedata=GetSegyTraceData(segyid,ns,SegyHeader,SkipData)
+function tracedata=GetSegyTraceData(segyid,ns,SegyHeader,SkipData,it)
 %
 % Get Segy Trace Data. 
 %
@@ -62,7 +62,22 @@ if (SkipData==1)
 else  
     % SegymatVerbose([mfilename,' : ',Format,'. ns=',num2str(ns)])
     try 
-      tracedata=fread(segyid,ns,Format);
+        
+       
+       if nargin>4 
+           
+           % Skip to the it'th sample
+           SkipBytes=(it-1)*BPS/8;
+           fseek(segyid,SkipBytes,'cof');
+         
+           tracedata=fread(segyid,1,Format);
+          
+           SkipBytes=(ns-it)*BPS/8;
+           fseek(segyid,SkipBytes,'cof');
+           
+       else
+         tracedata=fread(segyid,ns,Format);
+       end
     catch
       SegymatVerbose([mfilename,' : Error using fread - Possibly ''ns'' is negative -' ...
 	    ' check byteorder-'])
