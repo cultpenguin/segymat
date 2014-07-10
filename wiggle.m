@@ -163,7 +163,7 @@ if (showmax>0)
 
     dmax=dmax/d;
 
-    LineWidth=0.0001;
+    LineWidth=1;
     EdgeColor=lineColor;
     for i=1:d:ntraces
         xt=dx*Data(:,i)'./dmax;
@@ -201,10 +201,9 @@ if (showmax>0)
 
             % MATLAB PLOT
             if ax_order==1;     
-                lw=0.1;
-                plot(xt+x(i),t,'-','linewidth',lw,'color',lineColor);
+                plot(xt+x(i),t,'-','linewidth',LineWidth,'color',lineColor);
             else
-                plot(t,xt+x(i),'-','linewidth',lw,'color',lineColor);
+                plot(t,xt+x(i),'-','linewidth',LineWidth,'color',lineColor);
             end
             %OCTAVE PLOT
             %plot(xt+x(i),t,'k-')
