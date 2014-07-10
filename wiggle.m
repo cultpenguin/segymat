@@ -201,9 +201,10 @@ if (showmax>0)
 
             % MATLAB PLOT
             if ax_order==1;     
-                plot(xt+x(i),t,'-','linewidth',1.05,'color',lineColor);
+                lw=0.1;
+                plot(xt+x(i),t,'-','linewidth',lw,'color',lineColor);
             else
-                plot(t,xt+x(i),'-','linewidth',1.05,'color',lineColor);
+                plot(t,xt+x(i),'-','linewidth',lw,'color',lineColor);
             end
             %OCTAVE PLOT
             %plot(xt+x(i),t,'k-')
