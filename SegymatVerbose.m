@@ -32,7 +32,7 @@ function SegymatVerbose(txt,level)
     level=1; 
   end
   
-  VerboseLevel=10;
+  VerboseLevel=0;
   
   % Only print information if at or above VerboseLevel
   if level<=VerboseLevel
