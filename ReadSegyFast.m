@@ -41,7 +41,7 @@
 %
 % 
 %
-function [Data]=ReadSegyFast(filename,varargin);
+function [Data,SegyHeader,SegyTraceHeadersBinary]=ReadSegyFast(filename,varargin);
 
   mfilename='ReadSegyFast';
   
@@ -203,14 +203,16 @@ ntraceheader=240/bytepersample;
 
 
 Data=fread(segyid,[ns+ntraceheader ntraces],Format);
+SegyTraceHeadersBinary=Data(1:ntraceheader,:);
 Data=Data([ntraceheader+1:1:ns+ntraceheader],:);
 %SegymatVerbose(['Now=',num2str(ftell(segyid)),' END=',num2str(DataEnd)])
 
 % THE FOLLOWING DOES NOT WORK FOR OCTAVE (uint32)
+SegyHeader.DataFormat=Format;
 if (strcmp(Format,'uint32')==1), % IBM FLOATING POINT
         % CONVERT FROM FLOATING POINT
-        verbose=1;
-        if verbose>1, SegymatVerbose([mfilename,'Converting from IBM, DataFormat :',SegyHeader.DataFormat]); end
+        verbose=2;
+        SegymatVerbose([mfilename,'Converting from IBM, DataFormat :',SegyHeader.DataFormat],verbose);
         Data=ibm2num(uint32(Data));
 end;
 

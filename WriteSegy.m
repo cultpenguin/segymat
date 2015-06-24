@@ -103,7 +103,7 @@ function WriteSegy(filename,data,varargin);
     
     % OPEN SEGY FILE HANDLE
     segyid = fopen(filename,'w','b');   % ALL DISK FILES ARE IN BIG
-                                        % ENDIAN FORMAT, ACCORDING SEG
+                                        % ENDIAN FORMAT, ACCORDING TO SEG
                                         % Y rev 1
 
     % Write SEGY HEADER
