@@ -21,9 +21,10 @@ SegyMAT : Read and Write SEG-Y files using <A HREF="http://www.mathworks.com/">M
 
 M-files to read and write SEG-Y files from Matlab, implemented using the syntax of the SEG-Y format : SEG-Y revision 0 (1975) and revision 1 (May 2002) [<A HREF="http://www.seg.org/documents/10161/77915/seg_y_rev1.pdf">pdf</A>].
 </H5>
+	
 
 <CENTER>This site is hosted by<BR>
-<A href="http://sourceforge.net">
+<A href="http://sourceforge.net/projects/segymat">
 <IMG src="http://sourceforge.net/sflogo.php?group_id=39015&type=1" width="88" height="31" border="0" alt="SourceForge Logo"> </A>
 </CENTER>
 
@@ -80,8 +81,8 @@ mailinglist, and post them there.
 $today = getdate();
 # today, 12AM
 $date = mktime(0,0,0,$today['mon'], $today['mday'], $today['year']);
-$rss = fetch_rss("http://sourceforge.net/export/rss2_projnews.php?group_id=39015&rss_fulltext=1");
-
+// $rss = fetch_rss("http://sourceforge.net/export/rss2_projnews.php?group_id=39015&rss_fulltext=1");
+$rss = fetch_rss("http://sourceforge.net/p/segymat/news/feed");
 $i=0;
 foreach ( $rss->items as $item ) {
 	$published = parse_w3cdtf($item['dc']['date']);
@@ -92,11 +93,15 @@ foreach ( $rss->items as $item ) {
 		$description = $item['description'];
 		echo "<TABLE>";
 		echo "<TR><TD><FONT SIZE=-2>$pubDate</FONT></TD></TR>";
-		echo "<TR CLASS=\"smaller\"><TH ALIGN=\"left\" WIDTH=\"200\">";
+		echo "<TR CLASS=\"smaller\"><TH ALIGN=\"left\" WIDTH=\"500\">";
                 echo "<a href=$href>$title</a></li>";
-		echo "</TH><TD>";
+		echo "</TH>";
+		echo "</TR>";
+		echo "<TR xCLASS=\"smaller\"><TD>";
 		echo "$description";
-		echo "</TD></TR></TABLE>";
+		echo "</TD></TR>";
+
+		echo "</TABLE>";
 		if ($i==2) {
 		  break;
 		}
@@ -169,35 +174,6 @@ If you feel you want to contribute with a donation to the development, you can d
 <A HREF="http://sourceforge.net/donate/index.php?group_id=39015">Donate to SegyMAT</A>
 
 
-<!-- -------------------------------------------------------------------------------------- -->
-
-<!--
-<DIV CLASS="title">ScreenShots</DIV>
-The upcoming major release (post version 1.0) is in CVS.<BR>
-The major new feature will be GUI editing of Segy Headers.<BR>
-Here are some screenshots from the CVS code :
-<P>
-<TABLE CLASS="smaller">
-<TR CLASS="smaller">
-<TD CLASS="smaller">
-<A HREF="GUIOpenSEGY.jpg"><IMG SRC="GUIOpenSEGY_s.jpg" WIDTH="211" HEIGHT="200"></A>
-</TD>
-<TD>
-<A HREF="GUISegyMAT.jpg"><IMG SRC="GUISegyMAT_s.jpg" WIDTH="289" HEIGHT="200"></A>
-</TD>
-<TD>
-<A HREF="GUIEditSegyTraceHeader.jpg"><IMG SRC="GUIEditSegyTraceHeader_s.jpg" WIDTH="289" HEIGHT="200"></A>
-</TD>
-<TR>
-<TR>
-<TD>GUI to read in SU/SEG-Y files.</TD>
-<TD>Main SegyMAT GUI</TD>
-<TD>GUI for editing Segy Trace Header values</TD>
-</TR>
-</TABLE>
-<P>
-<P>
--->
 
 <!-- -------------------------------------------------------------------------------------- -->
 <!--
@@ -245,7 +221,7 @@ reads <A HREF="http://www.cwp.mines.edu/cwpcodes/">SU</A>-formatted data.
 -->
 <HR>
 <ADDRESS>
-(C) 2001,2002,2003,2004,2005,2006 Thomas Mejer Hansen, [<A HREF="mailto:tmh@gfy.ku.dk">mail</A> - <A HREF="http://www.gfy.ku.dk/~tmh">www</A>]
+(C) 2001-2015 Thomas Mejer Hansen, [<A HREF="mailto:thomas.mejer.hansen@gmail.com">mail</A> - <A HREF="http://imgp.nbi.ku.dk/">www</A>]
 </ADDRESS>
 
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">

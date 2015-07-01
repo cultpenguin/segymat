@@ -32,7 +32,7 @@ html:
 	mv *.html htmldoc/.
 
 upload:
-	scp -r htmldoc/* cultpenguin@segymat.sf.net:/home/groups/s/se/segymat/htdocs/doc/.	
+	./updateSF
 
 
 clean:
@@ -42,6 +42,9 @@ clean:
 	rm -f *.pdf
 
 
+all:
+	make pdf
+	make html
 
 help:
 	# USAGE
