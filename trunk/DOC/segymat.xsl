@@ -5,7 +5,7 @@
 
 <xsl:template name="user.footer.content">
   <HR/><TABLE WIDTH="100%"><TR>
-  <TD class="copyright">&#x00A9; 2004-2012 Thomas Mejer Hansen.</TD>
+  <TD class="copyright">&#x00A9; 2004-2015 Thomas Mejer Hansen.</TD>
   <TD class="copyright" ALIGN="right">This site is hosted by
 <A href="http://sourceforge.net/projects/segymat/">
 <IMG src="http://sourceforge.net/sflogo.php?group_id=39015" width="88" height="31" border="0" alt="SourceForge Logo"></IMG></A></TD>
