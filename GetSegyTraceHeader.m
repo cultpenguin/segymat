@@ -29,7 +29,7 @@
 
 function [SegyTraceHeader]=GetSegyTraceHeader(segyid,TraceStart,SegyTraceHeader);
 
-if nargin<1 
+if nargin<2 
     TraceStart=ftell(segyid); 
 end
 

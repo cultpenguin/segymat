@@ -29,7 +29,8 @@ SegyHeader=PutSegyHeader(segyid,SegyHeader);
 % convert IBM formatted data?
 if SegyHeader.DataSampleFormat==1
 end
-if (strcmp(SegyHeader.DataFormat,'uint32')==1), % IBM FLOATING POINT
+%if (strcmp(SegyHeader.DataFormat,'uint32')==1), % IBM FLOATING POINT
+if (SegyHeader.DataSampleFormat==1), % IBM FLOATING POINT
         % CONVERT FROM FLOATING POINT
         verbose_level=2;
         SegymatVerbose([mfilename,'Converting to IBM, DataFormat :',SegyHeader.DataFormat],verbose_level)
