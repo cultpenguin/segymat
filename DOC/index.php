@@ -41,7 +41,10 @@ ADD : SegyMAT has a family member called <A HREF="http://lasymat.sourceforge.net
 
  <!-- -------------------------------------------------------------------------------------- -->
 <DIV CLASS="title">Download</DIV>
-<BR><?
+<BR>
+The latest release is available from <A HREF="https://sourceforge.net/projects/segymat/">Sourceforge</A>.
+<!--
+<?
 $today = getdate();
 # today, 12AM
 $date = mktime(0,0,0,$today['mon'], $today['mday'], $today['year']);
@@ -56,7 +59,7 @@ foreach ( $rss->items as $item ) {
 		echo "<li><a href=$href>Download latest release</a></li>";
 	break;
 }
-
+-->
 ?>
 
 <BR>

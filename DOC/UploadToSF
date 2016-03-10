@@ -2,6 +2,6 @@
 echo "USE sftp : cultpenguin@web.sourceforge.net:/home/groups/s/se/segymat/htdocs/"
 
 #scp -r htmldoc/* cultpenguin@web.sourceforge.net:/home/groups/s/se/segymat/htdocs/doc/.
-#scp -r index.php cultpenguin@segymat.sf.net:/home/groups/s/se/segymat/htdocs/.
+#scp -r index.html cultpenguin@segymat.sf.net:/home/groups/s/se/segymat/htdocs/.
 
 
