@@ -31,7 +31,7 @@ function WriteSuStructure(filename,SegyHeader,SegyTraceHeaders,Data)
 
 
 % FORCE THE USE OF IEEE				    
-SegyHeader.SegyFormatRevisionNumber=100;
+SegyHeader.SegyFormatRevisionNumber=256;
 SegyHeader.DataSampleFormat=5; % IEEE 
     
                                     

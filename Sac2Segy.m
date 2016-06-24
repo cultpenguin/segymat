@@ -130,13 +130,13 @@ end
 % IF A SPECFIC REVISION HAS BEEN CHOSEN, USE THAT
 if exist('revision')==1,
     if revision==1,
-        SegyHeader.SegyFormatRevisionNumber=100;
+        SegyHeader.SegyFormatRevisionNumber=256;
     else
         SegyHeader.SegyFormatRevisionNumber=0;
     end
     SegymatVerbose([mfilename,' :  Using user specified SEG Y revision : ',num2str(revision)],1)
 else
-    SegyHeader.SegyFormatRevisionNumber=100;
+    SegyHeader.SegyFormatRevisionNumber=256;
 end
 
 

@@ -1,7 +1,7 @@
 % PutSegyHeader : Writes SEG-Y header to disk.
 % PutSegyHeader(segyid,SegyHeader)
 %
-% (C) 2001-2004, Thomas Mejer Hansen, tmh@gfy.ku.dk/thomas@cultpenguin.com
+  % (C) 2001-2016, Thomas Mejer Hansen, thomas.mejer.hansen@gmail.com
 % 
 %    This program is free software; you can redistribute it and/or modify
 %    it under the terms of the GNU General Public License as published by
@@ -27,15 +27,15 @@ end
 
 if (isfield(SegyHeader,'DataSampleFormat')==0)&(isfield(SegyHeader,'SegyFormatRevisionNumber')==0)
   SegyHeader.DataSampleFormat=5; % '5'->4-byte IEEE floating point 
-  SegyHeader.SegyFormatRevisionNumber=100;
+  SegyHeader.SegyFormatRevisionNumber=256;
   SegymatVerbose([mfilename,' : Using datasample format : ',SegyHeader.Rev(2).DataSampleFormat(SegyHeader.DataSampleFormat).name],1)
-  SegymatVerbose([mfilename,' : Using SEG Y revision : ',num2str(floor(SegyHeader.SegyFormatRevisionNumber/100))],1)
+  PrintSegyFormatRevsisionNumber(SegyHeader,1);
 end
 
 % SET Revsion number. Always use revision 1, if not otherwise specified.
 if (isfield(SegyHeader,'SegyFormatRevisionNumber')==0)
-  SegyHeader.SegyFormatRevisionNumber=100;
-  SegymatVerbose([mfilename,' : Using SEG Y revision : ',num2str(floor(SegyHeader.SegyFormatRevisionNumber/100))],1)
+  SegyHeader.SegyFormatRevisionNumber=256;
+  PrintSegyFormatRevsisionNumber(SegyHeader,1);
 end
 
 % SET DATA SAMPLE FORMAT IF NOT SPECIFIED
@@ -93,7 +93,6 @@ if ~isfield(SegyHeader,'VibratoryPolarityCode');SegyHeader.VibratoryPolarityCode
 % 3261-3500 UNASSIGNED
 if ~isfield(SegyHeader,'Unassigned1');SegyHeader.Unassigned1=NA*ones(1,120); end
 
-%if ~isfield(SegyHeader,'SegyFormatRevisionNumber'); SegyHeader.SegyFormatRevisionNumber=100; end % ACCORDING TO SEGY REV1 draft 6
 if ~isfield(SegyHeader,'FixedLengthTraceFlag');SegyHeader.FixedLengthTraceFlag=1; end % ALL TRACES HAVE THE SAME dt AND ns
 if ~isfield(SegyHeader,'NumberOfExtTextualHeaders'); SegyHeader.NumberOfExtTextualHeaders=0; end % WE DO NOT YET USE TEXTURAL HEADERS as can be done according to draft 6
 % 3506-3600 UNASSIGNED

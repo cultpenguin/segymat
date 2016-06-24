@@ -73,7 +73,7 @@ function WriteSegy(filename,data,varargin);
     % IF A SPECFIC REVISION HAS BEEN CHOSEN, USE THAT
     if exist('revision')==1,
         if revision==1, 
-            SegyHeader.SegyFormatRevisionNumber=100;
+            SegyHeader.SegyFormatRevisionNumber=256;
         else
             SegyHeader.SegyFormatRevisionNumber=0;
         end
@@ -87,19 +87,6 @@ function WriteSegy(filename,data,varargin);
         SegymatVerbose([mfilename,' :  Using user specified Data Sample Format : ',num2str(revision)],1)
     end
     
-    
-    
-    % UNCOMMENT THE FOLLOWING TWO LINES TO USE REVISION 1 (2002)
-    %SegyHeader.SegyFormatRevisionNumber=100; % 2002 SEG Y STYLE
-    %SegyHeader.DataSampleFormat=2; % '1'->4-byte IBM floating point 
-    %                                 '2'->4-byte two's complement integer 
-    %                                 '3'->2-byte two's complement integer
-    %                                 '5'->4-byte IEEE floating point (default)
-    %                                 '8'->1-byte two's complement integer
-    
-    % UNCOMMENT THE FOLLOWING TWO LINES TO USE REVISION 0 (1975)
-    %SegyHeader.SegyFormatRevisionNumber=0; % 1975 SEoG Y STYLE
-    %SegyHeader.DataSampleFormat=1; % '1'->4-byte IBM Floating Point
     
     % OPEN SEGY FILE HANDLE
     segyid = fopen(filename,'w','b');   % ALL DISK FILES ARE IN BIG

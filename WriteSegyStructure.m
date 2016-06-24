@@ -48,7 +48,7 @@ if exist('revision')==1,
   if revision==0,
     SegyHeader.SegyFormatRevisionNumber=0;
   else
-    SegyHeader.SegyFormatRevisionNumber=100;
+    SegyHeader.SegyFormatRevisionNumber=256;
   end  
   SegymatVerbose([mfilename,' : Using SEG Y revision ',num2str(revision)])
 end

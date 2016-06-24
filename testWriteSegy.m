@@ -25,29 +25,24 @@ SegyHeader.DataSampleFormat=1;
 WriteSegyStructure('data_IBM_REV0.segy',SegyHeader,SegyTraceHeaders,Data);
 
 % WRITE IBM FLOATING POINT REV 1
-SegyHeader.SegyFormatRevisionNumber=100;
 SegyHeader.DataSampleFormat=1;
 WriteSegyStructure('data_IBM_REV1.segy',SegyHeader,SegyTraceHeaders,Data);
 
 
 % WRITE 4BYTE INT POINT REV 1
-SegyHeader.SegyFormatRevisionNumber=100;
 SegyHeader.DataSampleFormat=2;
 WriteSegyStructure('data_4byteINT.segy',SegyHeader,SegyTraceHeaders,Data);
 
 % WRITE 2BYTE INT POINT REV 1
-SegyHeader.SegyFormatRevisionNumber=100;
 SegyHeader.DataSampleFormat=3;
 WriteSegyStructure('data_2byteINT.segy',SegyHeader,SegyTraceHeaders,Data);
 
 % WRITE 1BYTE INT POINT REV 1
-SegyHeader.SegyFormatRevisionNumber=100;
 SegyHeader.DataSampleFormat=8;
 WriteSegyStructure('data_1byteINT.segy',SegyHeader,SegyTraceHeaders,Data);
 
 
 % WRITE IEEE POINT REV 1
-SegyHeader.SegyFormatRevisionNumber=100;
 SegyHeader.DataSampleFormat=5;
 WriteSegyStructure('data_IEEE.segy',SegyHeader,SegyTraceHeaders,Data);
 

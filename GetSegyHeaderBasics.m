@@ -149,7 +149,7 @@ else
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Revision 1
     Rev(2).name='Revision 1 (2002)';
-    Rev(2).SegyFormatRevisionNumber=100;
+    Rev(2).SegyFormatRevisionNumber=256;
     % DataSampleFormat
     Rev(2).DataSampleFormat(1).format='uint32'; %
     Rev(2).DataSampleFormat(2).format='int32'; %

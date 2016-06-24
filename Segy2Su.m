@@ -29,5 +29,5 @@
 function Segy2Su(filename,varargin);
 [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,varargin);
 SegyHeader.DataSampleFormat=5;       % IEEE
-SegyHeader.SegyFormatRevisionNumber=100; % SEGY REVISION 1
+SegyHeader.SegyFormatRevisionNumber=256; % SEGY REVISION 1
 WriteSuStructure([filename,'.su'],SegyHeader,SegyTraceHeaders,Data);

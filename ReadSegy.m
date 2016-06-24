@@ -296,7 +296,7 @@ if (SegyHeader.DataSampleFormat>length(SegyHeader.Rev(Revision+1).DataSampleForm
             SegymatVerbose([mfilename,' : FATAL ERROR : STILL THE DATASAMPLE FORMAT IS NOT SUPPRTED - EXITING (Report error to tmh@gfy.ku.dk)'])
         else
             SegymatVerbose([mfilename,' : APPARENT SUCCES CHANING FROM Revision 0 to 1 - Continuing'])
-            SegyHeader.SegyFormatRevisionNumber=1; % FORCING REVISION TO BE 1 !!!
+            SegyHeader.SegyFormatRevisionNumber=256; % FORCING REVISION TO BE 1 !!!
         end
 
     end
