@@ -1,5 +1,8 @@
 # SegyMAT
 Download latest release from [http://segymat.sourceforge.net/]
+
+Documentation is available at  [https://www.authorea.com/users/30338/articles/110609/]
+
 # Release History
 
 ## SegyMAT 1.5
