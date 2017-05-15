@@ -1,7 +1,7 @@
 # SegyMAT
 Download latest release from [http://segymat.sourceforge.net/]
 
-Documentation is available at  [https://www.authorea.com/users/30338/articles/110609/]
+Documentation is available at [https://www.gitbook.com/book/cultpenguin/segymat/details]
 
 # Release History
 
