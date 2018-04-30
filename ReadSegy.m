@@ -332,7 +332,6 @@ fseek(segyid,0,'eof'); DataEnd=ftell(segyid);
 DataStart=3600+3200*SegyHeader.NumberOfExtTextualHeaders;
 fseek(segyid,DataStart,'bof');       % Go to the beginning of the file
 
-
 ntraces=round((DataEnd-DataStart)./(240+(SegyHeader.ns)*(BPS/8)));
 
 SegymatVerbose(['Number of Samples Per Trace=',num2str(SegyHeader.ns)])
