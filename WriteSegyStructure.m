@@ -37,6 +37,9 @@
 %
 function SegyHeader=WriteSegyStructure(filename,SegyHeader,SegyTraceHeaders,Data,varargin)
 
+SegymatVerbose(sprintf('%s: writing to %s',mfilename,filename),0)
+
+
 for i=1:2:length(varargin)
   var=varargin{i};
   val=varargin{i+1};
@@ -75,16 +78,11 @@ txt='';
 SegyHeader=PutSegyHeader(segyid,SegyHeader);
 
 ntraces=size(Data,2);
-hw=waitbar(0,['Writing to SEGY-file : ',filename,' - ',txt]);
-
 
 for i=1:ntraces;
-    if (i/100)==round(i/100),
-      SegymatVerbose(['writing trace ',num2str(i),' of ',num2str(ntraces),', filepos=',num2str(ftell(segyid))])
-      waitbar(i/ntraces,hw)
+    if (i/1000)==round(i/1000),
+      SegymatVerbose([mfilename,': writing trace ',num2str(i),' of ',num2str(ntraces),', filepos=',num2str(ftell(segyid))],0)
     end
     PutSegyTrace(segyid,Data(:,i),SegyTraceHeaders(i),SegyHeader);
-
 end
-close(hw)
 fclose(segyid);                                  

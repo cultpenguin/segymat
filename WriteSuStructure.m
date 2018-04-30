@@ -24,6 +24,9 @@
 function WriteSuStructure(filename,SegyHeader,SegyTraceHeaders,Data)
 
 
+SegymatVerbose(sprintf('%s: writing to %s',mfilename,filename),0)
+
+
   segyid = fopen(filename,'w');   % USE LOCAL ENDIAN FLAG,
                                     % I.E. ENDIAN FORMAT NOT SPECIFIED 
 % segyid = fopen(filename,'w','b'); % BIG ENDIAN
@@ -33,17 +36,13 @@ function WriteSuStructure(filename,SegyHeader,SegyTraceHeaders,Data)
 % FORCE THE USE OF IEEE				    
 SegyHeader.SegyFormatRevisionNumber=256;
 SegyHeader.DataSampleFormat=5; % IEEE 
-    
-                                    
+                                        
 ntraces=size(Data,2);
-hw=waitbar(0,['Writing to SU-file : ',filename]);
 for i=1:ntraces;
-    if (i/200)==round(i/200),
-      SegymatVerbose(['writing trace ',num2str(i),' of ',num2str(ntraces),', filepos=',num2str(ftell(segyid))],1)
+    if (i/1000)==round(i/1000),
+      SegymatVerbose(['writing trace ',num2str(i),' of ',num2str(ntraces),', filepos=',num2str(ftell(segyid))],0)
       SegymatVerbose(SegyTraceHeaders(i).ns,1)
     end
     PutSegyTrace(segyid,Data(:,i),SegyTraceHeaders(i),SegyHeader);
-    waitbar(i/ntraces,hw);
 end
-close(hw)
 fclose(segyid);                                  
