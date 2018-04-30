@@ -103,6 +103,8 @@ else
     SkipSegyTraceHeaders=0;    
 end
 
+SegymatVerbose(sprintf('%s: reading from %s',mfilename,filename),0)
+
 dsf=[];
 revision=[];
 endian_tight=[];
@@ -392,8 +394,7 @@ while (~(ftell(segyid)>=DataEnd))
     itime=2; % Min time between verbose info to screen   in seconds
     t_since_last=(now-tlast)*24*3600; % Time in seconds since last screen update
     %t_since_last=1;
-    if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),
-        
+    if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),        
         tnow=now;
         tlast=tnow;
         posnow=ftell(segyid);
