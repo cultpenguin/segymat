@@ -26,8 +26,24 @@
 %    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 %
 %
-function Segy2Su(filename,varargin);
+function file_out=Segy2Su(filename,varargin);
+
+[p,f,w]=fileparts(filename);
+file_out = sprintf('%s.su',f);
+i=0;
+while exist(file_out,'file')
+    i=i+1;
+    file_out = sprintf('%s_%d.su',f,i);
+    if i>10        
+        disp(sprintf('%s: Could not set filename',mfilename))
+        return
+    end    
+end
+if (i>0)
+    fprintf('%s: Writing to %s \n',mfilename,file_out)
+end    
+
 [Data,SegyTraceHeaders,SegyHeader]=ReadSegy(filename,varargin);
 SegyHeader.DataSampleFormat=5;       % IEEE
 SegyHeader.SegyFormatRevisionNumber=256; % SEGY REVISION 1
-WriteSuStructure([filename,'.su'],SegyHeader,SegyTraceHeaders,Data);
+WriteSuStructure(file_out,SegyHeader,SegyTraceHeaders,Data);
