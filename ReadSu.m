@@ -220,10 +220,35 @@ existHeader=exist('header');
 existtmin=exist('tmin');
 existtmax=exist('tmax');
 
+t0=now;
+tlast=t0;
+pos0=ftell(segyid);
+ntraces = -1;
+
 tic;
 while (~(ftell(segyid)>=DataEnd))
   traceinfile=traceinfile+1;
   usetrace=1;
+
+  if traceinfile==2
+      ntraces=DataEnd/ftell(segyid);
+  end
+  
+  ishow=100;
+  itime=2; % Min time between verbose info to screen   in seconds
+  t_since_last=(now-tlast)*24*3600; % Time in seconds since last screen update
+  %t_since_last=1;
+  if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),
+      tnow=now;
+      tlast=tnow;
+      posnow=ftell(segyid);
+      tend=t0+DataEnd.*(tnow-t0)./(posnow-pos0);
+      tleft=(tend-tnow)*3600*24;
+      txt=sprintf('Reading trace %d/%d, (%5.0fs left) (est end %s)',traceinfile,ntraces,tleft,datestr(tend));
+      toc_old=toc;
+      SegymatVerbose(txt,-1)
+  end
+  
   
   %if exist('jump')
   if existJump==1;
