@@ -59,7 +59,7 @@ function [Data,SuTraceHeaders,SuHeader]=ReadSu(filename,varargin);
 dsf=[];
 
 if ~(exist(filename)==2'),
-  SegymatVerbose([mfilename,' : ', filename,' does not exist !'])
+  SegymatVerbose([mfilename,' : ', filename,' does not exist !'],0)
   Data=[];SuTraceHeaders=[];SuHeader=[];HeaderInfo=[];
   return
 end
@@ -95,8 +95,8 @@ while (cargin<local_nargin)
    if strcmp(varargin{cargin},'endian')
        cargin=cargin+1;
        eval(['endian=char(varargin{cargin});'])
-       if strcmp(endian,'b'),SegymatVerbose(['Reading BIG ENDIAN STYLE']);end
-       if strcmp(endian,'l'),SegymatVerbose(['Reading LITTLE ENDIAN STYLE']);end
+       if strcmp(endian,'b'),SegymatVerbose(['Reading BIG ENDIAN STYLE'],0);end
+       if strcmp(endian,'l'),SegymatVerbose(['Reading LITTLE ENDIAN STYLE'],0);end
     end
 
     if strcmp(varargin{cargin},'DataFormat')
