@@ -1,4 +1,4 @@
-About Segymat
+About SegyMAT
 =============
 
 Matlab is a very helpful tool to analyze seismic data. The most common
