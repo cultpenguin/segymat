@@ -6,20 +6,17 @@
 Welcome to SegyMAT's documentation!
 ===================================
 
-SegyMAT
-=======
-
 © `Thomas Mejer Hansen <mailto:thomas.mejer.hansen@gmail.com>`__,
-2001-2017
+2001-2019
 
 SegyMAT is a set of m-files for reading and writing SEG-Y files from
-`Matlab <http://mathworks.,com>`__ and
-`Octave <https://www.gnu.org/software/octave/>`__, that aims to
+`Matlab <http://mathworks.,com>` and
+`Octave <https://www.gnu.org/software/octave/>`, that aims to
 
 -  completely support SEG-Y revision 0 and 1;
 -  be easy to use in other projects;
 -  be a Swiss Army knife dealing with the SEGY-Y format in
-   Matlab/Octave.
+   Matlab/Octave.;
 
 SegyMAT is not lightning fast. SegyMAT makes heavy use of 'structures'.
 Unfortunately structures are not very effective in terms of speed in
@@ -66,7 +63,6 @@ License (LGPL)
    :maxdepth: 2
    :caption: Contents:
 
-   preface
    install
    format
    segyreading
