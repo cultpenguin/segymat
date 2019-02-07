@@ -14,9 +14,9 @@ Unfortunately structures are not very effective in terms of speed in
 Matlab. (Or they have not been implemented very effectively in SegyMAT).
 However structures make the implementation easier, and more robust.
 
-The latest version of is always available from Sourceforge : .
+The latest stable version of SegyMAT is available from Sourceforge :
+http://segymat.sourceforge.net/
 
-The latest version of SEGYMAT is always available from Sourceforge :
-SEGYMATWEB.
+The latest development version of SegyMAT is available from github: https://github.com/cultpenguin/segymat/archive/master.zip
 
-Mail any questions to `SEGYMAT-EMAIL <mailto:&segymat-email;>`__
+Mail any questions to thomas.mejer.hansen@gmail.com
