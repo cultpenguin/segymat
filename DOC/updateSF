@@ -1,2 +1,0 @@
-scp -r htmldoc/* cultpenguin,segymat@web.sourceforge.net:/home/project-web/s/se/segymat/htdocs/doc/.	
-scp -r index.php segymat.pdf htmldoc cultpenguin,segymat@web.sourceforge.net:/home/project-web/s/se/segymat/htdocs/.
