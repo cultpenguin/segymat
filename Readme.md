@@ -1,3 +1,5 @@
+https://zenodo.org/badge/doi/10.5281/zenodo.1305290.svg
+
 # SegyMAT
 Download latest release from [http://segymat.sourceforge.net/]
 
