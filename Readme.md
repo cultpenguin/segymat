@@ -1,6 +1,8 @@
-https://zenodo.org/badge/doi/10.5281/zenodo.1305290.svg
-
 # SegyMAT
+
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.1305290.svg
+   :target: https://zenodo.org/badge/latestdoi/1305290
+
 Download latest release from [http://segymat.sourceforge.net/]
 
 Documentation is available at [https://www.gitbook.com/book/cultpenguin/segymat/details]
