@@ -2,11 +2,17 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1305290.svg)](https://doi.org/10.5281/zenodo.1305290)
 
-Download latest release from [http://segymat.sourceforge.net/]
+Download latest release from [https://doi.org/10.5281/zenodo.1305290]
 
-Documentation is available at [https://www.gitbook.com/book/cultpenguin/segymat/details]
+Documentation is available at [https://segymat.readthedocs.io/]
 
 # Release History
+
+## SegyMAT v1.7 [20-04-2019]
+Release on (Zenodo)[https://doi.org/10.5281/zenodo.1305290]
+
+Documentattion on [https://segymat.readthedocs.io/]
+
 
 ## SegyMAT 1.5
 
