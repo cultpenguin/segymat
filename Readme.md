@@ -1,5 +1,6 @@
 # SegyMAT
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2648001.svg)](https://doi.org/10.5281/zenodo.2648001)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7440687.svg)](https://doi.org/10.5281/zenodo.7440687)
+
 
 Download latest stable release from [https://github.com/cultpenguin/segymat/releases/]
 
