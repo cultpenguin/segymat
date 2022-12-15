@@ -100,7 +100,7 @@ end
 if nargout<2
     SkipSegyTraceHeaders=1;
 else
-    SkipSegyTraceHeaders=0;    
+    SkipSegyTraceHeaders=0;
 end
 
 SegymatVerbose(sprintf('%s: reading from %s',mfilename,filename),0)
@@ -128,7 +128,7 @@ end
 % IF ONLY 'filename', AND one outpuet HAS BEEN
 % SPECIFIED AS IN/OUTPUT, THEN USE THE FAST
 % ALGORITHM FOR READING.
-if (nargin==1)&(nargout==1)
+if (nargin==1)&&(nargout==1)
     [Data]=ReadSegyFast(filename);
     return
 end
@@ -160,11 +160,11 @@ while (cargin<ninput)
         eval(['jump=',num2str(varargin{cargin}),';']);
         SegymatVerbose(['JUMP : Read only every ',num2str(jump),'th trace'])
     end
-    
+
     if strcmp(varargin{cargin},'traces')
         cargin=cargin+1;
         traces=varargin{cargin};
-        SegymatVerbose(['TRACES : Read only every ',num2str(jump),'th trace'])      
+        SegymatVerbose(['TRACES : Read only every ',num2str(jump),'th trace'])
     end
 
     if strcmp(varargin{cargin},'minmax')
@@ -176,17 +176,17 @@ while (cargin<ninput)
         cargin=cargin+1;
         eval(['headermax=',num2str(varargin{cargin}),';']);
         SegymatVerbose(['MIN MAX : Using header ',header,' from ',num2str(headermin),' to ',num2str(headermax)])
-        
+
         h=ReadSegyTraceHeaderValue(filename,'key',header);
         minmax_traces=find(h>=headermin & h<=headermax);
-        
-        
+
+
         if isempty(traces)
             traces=minmax_traces;
         else
             traces=intersect(traces,minmax_traces);
         end
-        
+
     end
 
     if strcmp(varargin{cargin},'trange')
@@ -214,7 +214,7 @@ while (cargin<ninput)
         eval(['it=',num2str(varargin{cargin}),';']);
         SegymatVerbose(['it=',num2str(it)],-1)
     end
-    
+
     if strcmp(varargin{cargin},'revision')
         cargin=cargin+1;
         eval(['revision=',num2str(varargin{cargin}),';']);
@@ -374,7 +374,7 @@ pos0=ftell(segyid);
 
 
 while (~(ftell(segyid)>=DataEnd))
-   
+
     usetrace=1; % DEFAULT USING TRACE WHEN [1].
 
     traceinfile=traceinfile+1;
@@ -388,13 +388,13 @@ while (~(ftell(segyid)>=DataEnd))
             fseek(segyid,skip,'bof');
         end
     end
-    
-    
+
+
     ishow=1000;
     itime=2; % Min time between verbose info to screen   in seconds
     t_since_last=(now-tlast)*24*3600; % Time in seconds since last screen update
     %t_since_last=1;
-    if (((traceinfile/ishow)==round(traceinfile/ishow))&(t_since_last>itime)),        
+    if (((traceinfile/ishow)==round(traceinfile/ishow))&&(t_since_last>itime)),
         tnow=now;
         tlast=tnow;
         posnow=ftell(segyid);
@@ -411,7 +411,7 @@ while (~(ftell(segyid)>=DataEnd))
         if (traceinfile/jump)~=round(traceinfile/jump), usetrace=0; end
     end
 
-    if ((usetrace==0)&(SegyHeader.FixedLengthTraceFlag==1)),
+    if ((usetrace==0)&&(SegyHeader.FixedLengthTraceFlag==1)),
         % SKIP FORWARD IN FILE'
         skip=240+(BPS/8)*SegyHeader.ns;
         fseek(segyid,skip,'cof');
@@ -426,12 +426,12 @@ while (~(ftell(segyid)>=DataEnd))
                 fseek(segyid,240,'cof');
             else
                 %% make sure we have read at least one trace header
-                SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);        
+                SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
             end
         else
             SingleSegyTraceHeaders=GetSegyTraceHeader(segyid,TraceStart,[]);
         end
-        
+
         if exist('it','var')
             SingleSegyData.data=GetSegyTraceData(segyid,SegyHeader.ns,SegyHeader,0,it);
         else
@@ -450,7 +450,7 @@ while (~(ftell(segyid)>=DataEnd))
 
 
     % IF HEADER MIN MAX HAS BEEN CHOSEN, THEN CHECK THAT TRACE IS GOOD ENOUGH
-    if ((existHeader==1)&(usetrace==1))
+    if ((existHeader==1)&&(usetrace==1))
         headervalue=getfield(SingleSegyTraceHeaders,header);
         if ((headervalue<headermin)|(headervalue>headermax))
             usetrace=0;
@@ -460,7 +460,7 @@ while (~(ftell(segyid)>=DataEnd))
     % USE THIS TRACE IF usetrace=1 !!
     if usetrace==1,
         %% IF TIME RANGE IS SPECIFIED, THEN EXTRACT THIS
-        if (existTmin==1)&(existTmax==1)
+        if (existTmin==1)&&(existTmax==1)
             % NEXT LINE SHOULD CONSIDER THAT ns in Trace and Segy Header
             % could vary !!!
             origtrange=[1:1:SegyHeader.ns].*SegyHeader.dt.*1e-6+SingleSegyTraceHeaders.DelayRecordingTime.*1e-3;
@@ -488,13 +488,13 @@ while (~(ftell(segyid)>=DataEnd))
             t0=t0+ta2-ta1;
         end
 
-        
+
         SegyData(outtrace).data=SingleSegyData.data;
         if nargout>1
             SegyTraceHeaders(outtrace)=SingleSegyTraceHeaders;
         end
-    
-        
+
+
         if doWaitBar==1,
             if ((outtrace/dwaitbar)==round(outtrace/dwaitbar))
                 waitbar(ftell(segyid)/DataEnd,hw);
@@ -570,4 +570,7 @@ else
         end
     end
 end
+
+fclose(segyid)
+
 

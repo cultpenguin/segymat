@@ -1,7 +1,11 @@
 % SegyMATdemo1 : Creates, Reads and plots a Segy File;
 
 % load test data set
-load Clown;
+if exist('Clown')
+  load Clown;
+else
+  X=rand(40,10)*100;
+end
 
 % choose a file name;
 file='segy_test.sgy';
