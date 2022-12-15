@@ -7,7 +7,7 @@ Documentation is available at [https://segymat.readthedocs.io/]
 
 Please cite:
 
-Thomas Mejer Hansen (2019). SegyMAT. Zenodo. http://doi.org/10.5281/zenodo.1305289. 
+Thomas Mejer Hansen (2022). SegyMAT. Zenodo. http://doi.org/10.5281/zenodo.1305289. 
 
 
 # Release History
