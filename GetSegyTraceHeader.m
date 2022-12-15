@@ -53,7 +53,7 @@ SegyTraceHeader.cdp               = chunk(6);    % 20
 SegyTraceHeader.cdpTrace          = chunk(7);    % 24
 
 chunk = fread(segyid,4,'int16');
-SegyTraceHeader.TraceIdenitifactionCode = chunk(1); % 28
+SegyTraceHeader.TraceIdentifactionCode = chunk(1); % 28
 SegyTraceHeader.NSummedTraces           = chunk(2); % 30
 SegyTraceHeader.NStackedTraces          = chunk(3); % 32
 SegyTraceHeader.DataUse                 = chunk(4); % 34

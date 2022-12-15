@@ -28,7 +28,7 @@ STH.EnergySourcePoint.pos=16;STH.EnergySourcePoint.precision='int32';
 STH.cdp.pos=20;              STH.cdp.precision='int32';
 STH.cdpTrace.pos=24;         STH.cdpTrace.precision='int32';
 
-STH.TraceIdenitifactionCode.pos=28;STH.TraceIdenitifactionCode.precision='int16';
+STH.TraceIdentifactionCode.pos=28;  STH.TraceIdentifactionCode.precision='int16';
 STH.NSummedTraces.pos=30;           STH.NSummedTraces.precision='int16';
 STH.NStackedTraces.pos=32;          STH.NStackedTraces.precision='int16';
 STH.DataUse.pos=34;                 STH.DataUse.precision='int16';

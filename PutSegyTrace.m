@@ -38,7 +38,7 @@ function PutSegyTrace(segyid,tracedata,SegyTraceHeader,SegyHeader);
     fwrite(segyid,SegyTraceHeader.EnergySourcePoint,'int32');    % 16
     fwrite(segyid,SegyTraceHeader.cdp,'int32');                  % 20
     fwrite(segyid,SegyTraceHeader.cdpTrace,'int32');             % 24
-    fwrite(segyid,SegyTraceHeader.TraceIdenitifactionCode,'int16'); % 28
+    fwrite(segyid,SegyTraceHeader.TraceIdentifactionCode,'int16'); % 28
     fwrite(segyid,SegyTraceHeader.NSummedTraces,'int16'); % 30
     fwrite(segyid,SegyTraceHeader.NStackedTraces,'int16'); % 32
     fwrite(segyid,SegyTraceHeader.DataUse,'int16'); % 34
