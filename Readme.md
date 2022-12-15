@@ -1,7 +1,7 @@
 # SegyMAT
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2648001.svg)](https://doi.org/10.5281/zenodo.2648001)
 
-Download latest stable release from [https://sourceforge.net/projects/segymat/]
+Download latest stable release from [https://github.com/cultpenguin/segymat/releases/]
 
 Documentation is available at [https://segymat.readthedocs.io/]
 
@@ -11,6 +11,9 @@ Thomas Mejer Hansen (2019). SegyMAT. Zenodo. http://doi.org/10.5281/zenodo.13052
 
 
 # Release History
+
+## SegyMAT v1.8 [15-12-2022]
+This is a minor release fixing issues related to Octave (#3)[https://github.com/cultpenguin/segymat/issues/3] and a typo in SegyTraceHeader (TraceIdenitifactionCode-TraceIdenitifactionCode) (#4)[https://github.com/cultpenguin/segymat/issues/4].
 
 ## SegyMAT v1.7 [20-04-2019]
 Release on (Zenodo)[https://doi.org/10.5281/zenodo.1305290]
